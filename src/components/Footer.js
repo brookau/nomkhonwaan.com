@@ -12,7 +12,7 @@ const Footer = () => {
   
   return (
     <footer className={styles['layout-footer']}>
-      &copy;&nbsp;{new Date().getFullYear()}&nbsp;&middot;&nbsp;<strong className="copyright">www.nomkhonwaan.com</strong>&nbsp;&middot;&nbsp;Powered by&nbsp;<a href="https://facebook.github.io/react/" className={styles.poweredby} title="React">React</a>
+      &copy;&nbsp;{new Date().getFullYear()}&nbsp;&middot;&nbsp;<strong className="copyright">www.nomkhonwaan.com</strong>&nbsp;&middot;&nbsp;Powered by&nbsp;<a href="https://facebook.github.io/react/" className="poweredby" title="React"><strong>React</strong></a>
     </footer>
   )
 }
