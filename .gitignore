@@ -1,0 +1,15 @@
+# Node build artifacts
+*.log
+logs
+npm-debug.log*
+
+# Local development
+.env
+.DS_Store
+.sass-cache
+
+dist
+static/bundle.js*
+node_modules
+webpack-assets.json
+webpack-stats.json

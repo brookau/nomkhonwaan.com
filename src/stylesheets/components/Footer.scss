@@ -1,0 +1,25 @@
+// stylesheets/components/Footer.scss
+// ----------------------------------
+//
+// @author  Natcha Luang - Aroonchai <me@nomkhonwaan.com>
+// @created May 8, 2016
+//
+
+@charset 'UTF-8';
+
+@import '../_base';
+
+.layout-footer {
+  align-items: center;
+  background: #37474f;
+  color: #f2f2f2;
+  display: flex;
+  font-size: 1.2rem;
+  flex-direction: row;
+  height: 64px;
+  justify-content: center;
+  
+  > .poweredby {
+    font-weight: 700;
+  }
+}

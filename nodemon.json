@@ -1,0 +1,9 @@
+{
+  "verbose": true,
+  "ignore": [
+    "dist/*",
+    "static/*",
+    "node_modules/*",
+    "webpack-*"
+  ]
+}
