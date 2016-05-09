@@ -4,6 +4,5 @@
     "dist/*",
     "static/*",
     "node_modules/*",
-    "webpack-*"
   ]
 }
