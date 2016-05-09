@@ -18,7 +18,6 @@ import { Provider } from 'react-redux'
 
 import { createMemoryHistory, match } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-// import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect'
 import { ReduxAsyncConnect, loadOnServer } from 'redux-connect'
 
 import webpack from 'webpack'
@@ -27,7 +26,6 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin'
 import webpackIsomorphicToolsConfiguration from './webpack-isomorphic-tools-configuration'
 
-import { getNavMenuItems } from './actions'
 import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
@@ -37,27 +35,25 @@ const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIso
 
 let webpackConfig = require('./webpack.config')
 
-// Using compression on response
+// Compress all output
 app.use(compression())
 
-// Using Helmet for secure Express application
+// Secure Express website with Helmet
 app.use(helmet())
 
-// Serving static directory
+// Serve static directory
 app.use('/static', Express.static(webpackConfig.output.path))
 
-// Setup development server for compiling and serving Webpack modules on the fly
+// Setup extra parameters for development environment
 if (process.env.NODE_ENV === 'development') {
-  // Setup extra entry, plugin on Webpack for development
   webpackConfig = Object.assign({}, webpackConfig, {
     entry: [
       ...webpackConfig.entry,
-      'webpack/hot/dev-server',
       'webpack-hot-middleware/client?path=/__webpack_hmr'
     ],
     plugins: [
-      // Un-plug production plugins
-      ..._.reduce(webpackConfig.plugins, (result, value) => {
+      ...
+      _.reduce(webpackConfig.plugins, (result, value) => {
         if (value.constructor.name !== 'Webpack_isomorphic_tools_plugin' && 
             value.constructor.name !== 'DefinePlugin' && 
             value.constructor.name !== 'UglifyJsPlugin') {
@@ -75,13 +71,12 @@ if (process.env.NODE_ENV === 'development') {
     ]
   })
   
-  // Clear require() cache
+  // Remove require() cache
   global.webpackIsomorphicTools.refresh()
   
-  // Create compiler from Webpack config file
+  // Webpack 
   const compiler = webpack(webpackConfig)
   
-  // Using Webpack development middleware
   app.use(webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
     headers: {
@@ -92,7 +87,6 @@ if (process.env.NODE_ENV === 'development') {
     }
   }))
 
-  // Using Webpack Hot module replacement
   app.use(webpackHotMiddleware(compiler, {
     log: console.log
   }))
@@ -120,7 +114,6 @@ function handleRender(req, res, next) {
     } else if (redirect) {
       return res.redirect(redirect)
     } else if (renderProps) {
-      // Render the component to a string
       const components = (
         <Provider store={store} key="provider">
           <ReduxAsyncConnect {...renderProps} />
