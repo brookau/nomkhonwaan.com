@@ -1,4 +1,10 @@
-language: "node_js"
+language: node_js
 node_js:
-  - "5"
-  - "6"
+  - '5'
+  - '6'
+deploy:
+  provider: heroku
+  api_key:
+    secure: VOi8oJAl17lt2mD8USnSioTuzZgsTWlhp4pytbGShTzezCLuiwnXh9sio3z+TGwYzrkAx/BaBrAx2uHKPwm3cq7j8lg8Obj/LQAtnPMl4wC7y48ohbizqzt9AZESB7tnovVuta1oBgQAvsPTVptwOVSbJSk4Wd/o9V5wvCQD56CvqyhyabSq2629gb6USgGPtJB60Ij6IIoMvm9BXTDv0D2qhXgYPiOZSa4EJDjBkm1nijtWTqT5vnQAAZ90fSide+ALsYpJSNLddbXbF3y2AR7upw6REDG7X2SV29GRnFZgkKDNPavlp1g1S+RMUzxWfCstBqLm57jalGNjxvWlmYIie85kI/fRBNUEdFofOqnY7C5KBCjfynraLBVQicESRd0sDk5AWQkmM2hunB6tlMaLdGqMy14u30d+NEsS5zaFSJNrUbGV7zf/44oYodmvGjS/b676C8zLCDGH4NxoEBizH+lIkIUiaYxge4IyQkRjfCTta0eCHkkjRCzZyWJXI3GAxlZsH7TH1q/MotrwTsZmY4F6OLkp24g34KCEAz4LJ/7bmWYJNgf9M/XCiOurj3JFX2hf+9nt6SzoMIHwfAhso3jYBL6AoYjz3NAr3Wv4OQxOQ4UgiZGL0UPevsmEXzXZeB1eiShXRTaBAKoqxSMdzTfsB5nhyZ0nP3GENNs=
+  app: 
+    dev: immense-ridge-70180
