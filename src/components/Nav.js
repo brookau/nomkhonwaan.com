@@ -45,9 +45,9 @@ const Nav = ({ dispatch, isExpanded }) => {
           </li>)}
       </ul>
       <button className={styles['btn-toggle']} onClick={() => {
-        dispatch(onClickMenuButton( ! isExpanded))
+        dispatch(onClickMenuButton(isExpanded))
         
-        document.getElementsByTagName('body')[0][( ! isExpanded
+        document.getElementsByTagName('body')[0][(isExpanded
           ? 'addEventListener'
           : 'removeEventListener')]
           ('touchmove', (event) => {

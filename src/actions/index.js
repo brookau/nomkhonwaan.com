@@ -17,6 +17,6 @@ export const POST = {
 export const onClickMenuButton = (isExpanded) => {
   return {
     type: NAV.ON_CLICK_MENU_BUTTON,
-    isExpanded
+    isExpanded: ! isExpanded
   }
 }
