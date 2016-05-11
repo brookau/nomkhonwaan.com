@@ -8,9 +8,9 @@
 import _ from 'lodash'
 import path from 'path'
 import helmet from 'helmet'
+import enforce from 'express-sslify';
 import Express from 'express'
 import compression from 'compression'
-import { HTTPS } from 'express-sslify';
 
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -47,7 +47,9 @@ app.use('/static', Express.static(webpackConfig.output.path))
 
 // Setup extra parameters for production environment
 if (process.env.NODE_ENV === 'production') {
-  app.use(HTTPS())  
+  app.use(enforce.HTTPS({
+    trustProtoHeader: true
+  }))  
 } 
 
 // Setup extra parameters for development environment
@@ -156,3 +158,5 @@ const server = app.listen(process.env.PORT || 8080, '0.0.0.0', (err) => {
     console.log('Press Ctrl+C to quit.')
   }
 })
+
+export default server
