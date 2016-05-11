@@ -100,9 +100,7 @@ else if (process.env.NODE_ENV === 'development') {
   }))
 }
 
-app.use(handleRender)
-
-function handleRender(req, res, next) {
+app.use((req, res, next) => {
   // Create a Redux store instance
   const store = createStore(reducers)
 
@@ -147,7 +145,7 @@ function handleRender(req, res, next) {
       return res.status(404).send('Page not found')
     }
   })
-}
+})
 
 const server = app.listen(process.env.PORT || 8080, '0.0.0.0', (err) => {
   if (err) {
@@ -158,5 +156,3 @@ const server = app.listen(process.env.PORT || 8080, '0.0.0.0', (err) => {
     console.log('Press Ctrl+C to quit.')
   }
 })
-
-export default server
