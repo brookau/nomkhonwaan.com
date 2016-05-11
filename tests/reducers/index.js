@@ -6,7 +6,7 @@
 //
 
 import expect from 'expect'
-import reducers from '../../reducers'
+import reducers from '../../src/reducers'
 
 describe('reducers/index.js', () => {
   it('should return an initialState', () => {
