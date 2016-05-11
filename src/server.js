@@ -44,6 +44,15 @@ app.use(helmet())
 // Serve static directory
 app.use('/static', Express.static(webpackConfig.output.path))
 
+// Serve Let's encrypt token
+app.use('/.well-known/acme-challenge/gcLRgLfZ7OkVp_2iIWYEegWaV6a_tyzrtN-pbyyMpnc', (req, res) => {
+  res
+    .set({
+      'Content-Type': 'text/plain; charset=UTF-8'
+    })
+    .send('gcLRgLfZ7OkVp_2iIWYEegWaV6a_tyzrtN-pbyyMpnc.wHu3Zw-RaHLW4S9dyRN45jR0c_zH4hlfYt59HjHbxe4');
+})
+
 // Setup extra parameters for development environment
 if (process.env.NODE_ENV === 'development') {
   webpackConfig = Object.assign({}, webpackConfig, {
