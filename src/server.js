@@ -31,16 +31,33 @@ import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
 
-const app = Express()
-const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
+import api from './api'
 
+const app = Express()
+
+// All of API endpoint will started with the API base URL
+const apiBaseUrl = '/api'
+
+// Current API version
+const apiVersion = 'v1'
+
+const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
 let webpackConfig = require('./webpack.config')
+
+// Log all request URL
+app.use((req, res, next) => {
+  console.log('%s [info] %s', new Date().toString(), req.originalUrl)
+  return next()
+})
 
 // Compress all output
 app.use(compression())
 
 // Secure Express website with Helmet
 app.use(helmet())
+
+// Setup API routes
+app.use(`${apiBaseUrl}/${apiVersion}`, api)
 
 // Serve static directory
 app.use('/static', Express.static(webpackConfig.output.path))
