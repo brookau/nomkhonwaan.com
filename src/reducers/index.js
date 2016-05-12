@@ -5,6 +5,7 @@
 // @created April 29, 2016
 //
 
+import _ from 'lodash'
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 // import { reducer as reduxAsyncConnect } from 'redux-async-connect'
@@ -35,6 +36,13 @@ export const myApp = (state = initialState, action) => {
     case POST.GET_POSTS:
     case POST.GET_POSTS_RESPONSE: 
       return Object.assign({}, state, {
+        entities: {
+          posts: 
+            _.reduce(action.items, (result, value, key) => {
+              result[key] = value 
+              return result
+            }, state.entities.posts)
+        },
         [POST.GET_POSTS]: getPostsAPI(state[POST.GET_POSTS], action)
       })
     default:

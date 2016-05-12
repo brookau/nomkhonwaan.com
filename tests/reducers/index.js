@@ -29,4 +29,20 @@ describe('reducers/index.js', () => {
       isExpanded: true
     }))
   })
+  
+  it(`should handle ${POST.GET_POSTS}`, () => {
+    expect(
+      JSON.stringify(myApp(undefined, {
+        type: POST.GET_POSTS
+      }))
+    )
+    .toEqual(
+      JSON.stringify(Object.assign({}, initialState, {
+        [POST.GET_POSTS]: {
+          ...initialState[POST.GET_POSTS],
+          isFetching: true
+        }
+      }))
+    )
+  })
 })
