@@ -66,7 +66,7 @@ module.exports = {
       test: /\.scss$/, 
       loader: ExtractTextPlugin.extract('style', [
         'css?modules&importLoaders=2&sourceMap',
-        'autoprefixer?browsers=last 2 version',
+        'autoprefixer?browsers=last 2 version&browsers=safari 5&browsers=ie 9',
         'sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true'
       ].join('!'))
     }, { 
