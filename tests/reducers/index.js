@@ -5,7 +5,7 @@
 // @created May 10, 2016
 //
 
-import expect from 'expect'
+import { expect } from 'chai'
 import {
   NAV,
   POST
@@ -17,7 +17,7 @@ import {
 
 describe('reducers/index.js', () => {
   it('should return an initialState', () => {
-    expect(myApp(undefined, {})).toEqual(initialState)
+    expect(myApp(undefined, {})).to.equal(initialState)
   })
   
   it(`should handle ${NAV.ON_CLICK_MENU_BUTTON}`, () => {
@@ -25,24 +25,20 @@ describe('reducers/index.js', () => {
       type: NAV.ON_CLICK_MENU_BUTTON, 
       isExpanded: true
     }))
-    .toEqual(Object.assign({}, initialState, {
+    .to.deep.equal(Object.assign({}, initialState, {
       isExpanded: true
     }))
   })
   
   it(`should handle ${POST.GET_POSTS}`, () => {
-    expect(
-      JSON.stringify(myApp(undefined, {
-        type: POST.GET_POSTS
-      }))
-    )
-    .toEqual(
-      JSON.stringify(Object.assign({}, initialState, {
-        [POST.GET_POSTS]: {
-          ...initialState[POST.GET_POSTS],
-          isFetching: true
-        }
-      }))
-    )
+    expect(myApp(undefined, {
+      type: POST.GET_POSTS
+    }))
+    .to.deep.equal(Object.assign({}, initialState, {
+      [POST.GET_POSTS]: {
+        ...initialState[POST.GET_POSTS],
+        isFetching: true
+      }
+    }))
   })
 })

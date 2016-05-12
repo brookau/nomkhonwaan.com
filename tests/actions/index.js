@@ -5,7 +5,7 @@
 // @created May 10, 2016
 //
 
-import expect from 'expect'
+import { expect } from 'chai'
 import {
   NAV,
   onClickMenuButton
@@ -14,10 +14,10 @@ import {
 describe('actions/index.js', () => {
   it('should toggle isExpanded variable', () => {
     const isExpanded = false
-    const expectedAction = {
+    
+    expect(onClickMenuButton(isExpanded)).to.deep.equal({
       type: NAV.ON_CLICK_MENU_BUTTON,
-      isExpanded: true
-    }
-    expect(onClickMenuButton(isExpanded)).toEqual(expectedAction)  
+      isExpanded: ! isExpanded
+    })  
   })
 })
