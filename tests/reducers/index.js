@@ -6,9 +6,27 @@
 //
 
 import expect from 'expect'
-import reducers from '../../src/reducers'
+import {
+  NAV,
+  POST
+} from '../../src/actions'
+import {
+  initialState,
+  myApp
+} from '../../src/reducers'
 
 describe('reducers/index.js', () => {
   it('should return an initialState', () => {
+    expect(myApp(undefined, {})).toEqual(initialState)
+  })
+  
+  it(`should handle ${NAV.ON_CLICK_MENU_BUTTON}`, () => {
+    expect(myApp(undefined, {
+      type: NAV.ON_CLICK_MENU_BUTTON, 
+      isExpanded: true
+    }))
+    .toEqual(Object.assign({}, initialState, {
+      isExpanded: true
+    }))
   })
 })

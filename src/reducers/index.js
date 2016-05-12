@@ -14,7 +14,7 @@ import {
   POST 
 } from '../actions'
 
-const initialState = {
+export const initialState = {
   isExpanded: false,
   entities: {
     posts: {}
@@ -26,7 +26,7 @@ const initialState = {
   }
 }
 
-const myApp = (state = initialState, action) => {
+export const myApp = (state = initialState, action) => {
   switch (action.type) {
     case NAV.ON_CLICK_MENU_BUTTON: 
       return Object.assign({}, state, {
@@ -42,7 +42,7 @@ const myApp = (state = initialState, action) => {
   }
 }
 
-const getPostsAPI = (state, action) => {
+export const getPostsAPI = (state, action) => {
   switch (action.type) {
     case POST.GET_POSTS:
       return Object.assign({}, state, {
