@@ -9,10 +9,6 @@
 
 @import '~normalize.css';
 
-// FontAwesome
-// In alias at webpack.config.js -> resolve.alias
-@import 'font-awesome.css';
-
 // Responsive screen size
 $screen-small: 786px;
 $screen-medium: 991px;
@@ -21,21 +17,21 @@ $screen-large: 1200px;
 // Noto Sans
 @font-face {
   font-family: 'Noto Sans';
-  src: url('NotoSans-Regular.ttf') format('truetype'); 
+  src: url('fonts/NotoSans-Regular.ttf') format('truetype'); 
 }
 @font-face {
   font-family: 'Noto Sans';
-  src: url('NotoSans-Bold.ttf') format('truetype');
+  src: url('fonts/NotoSans-Bold.ttf') format('truetype');
   font-weight: 700;  
 }
 @font-face {
   font-family: 'Noto Sans';
-  src: url('NotoSans-Italic.ttf') format('truetype');
+  src: url('fonts/NotoSans-Italic.ttf') format('truetype');
   font-style: italic; 
 }
 @font-face {
   font-family: 'Noto Sans';
-  src: url('NotoSans-BoldItalic.ttf') format('truetype');
+  src: url('fonts/NotoSans-BoldItalic.ttf') format('truetype');
   font-weight: 700;
   font-style: italic; 
 }
@@ -43,11 +39,11 @@ $screen-large: 1200px;
 // Noto Sans Thai
 @font-face {
   font-family: 'Noto Sans Thai';
-  src: url('NotoSansThai-Regular.ttf') format('truetype'); 
+  src: url('fonts/NotoSansThai-Regular.ttf') format('truetype'); 
 }
 @font-face {
   font-family: 'Noto Sans Thai';
-  src: url('NotoSansThai-Bold.ttf') format('truetype');  
+  src: url('fonts/NotoSansThai-Bold.ttf') format('truetype');  
   font-weight: 700;
 }
 

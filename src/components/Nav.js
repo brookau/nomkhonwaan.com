@@ -12,7 +12,7 @@ import { onClickMenuButton } from '../actions'
 
 const Nav = ({ dispatch, isExpanded }) => {
   const styles = require('../stylesheets/components/Nav.scss')
-  const faStyles = require('font-awesome.css')
+  const faStyles = require('font-awesome/css/font-awesome.css')
   
   return (
     <nav className={styles['layout-nav']}>
