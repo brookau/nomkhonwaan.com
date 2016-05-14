@@ -20,6 +20,18 @@ fse.copySync(
   path.resolve(__dirname, '..', 'dist', 'stylesheets')
 )
 
+// Static files path
+var staticPath = path.resolve(__dirname, '..', 'static')
+var staticFontsPath = path.join(staticPath, 'fonts')
+
+// node_modules directory
+var nodeModulesPath = path.resolve(__dirname, '..', 'node_modules')
+
+// FontAwesome files path
+var fontAwesomePath  = path.join(nodeModulesPath, 'font-awesome')
+var fontAwesomeCssPath  = path.join(fontAwesomePath , 'css')
+var fontAwesomeFontsPath  = path.join(fontAwesomePath , 'fonts')
+
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
@@ -31,8 +43,17 @@ module.exports = {
     publicPath: '/static/'
   },
   resolve: {
+    alias: {
+      'NotoSans-Regular.ttf': path.join(staticFontsPath, 'NotoSans-Regular.ttf'),
+      'NotoSans-Bold.ttf': path.join(staticFontsPath, 'NotoSans-Bold.ttf'),
+      'NotoSans-Italic.ttf': path.join(staticFontsPath, 'NotoSans-Italic.ttf'),
+      'NotoSans-BoldItalic.ttf': path.join(staticFontsPath, 'NotoSans-BoldItalic.ttf'),
+      'NotoSansThai-Regular.ttf': path.join(staticFontsPath, 'NotoSansThai-Regular.ttf'),
+      'NotoSansThai-Bold.ttf': path.join(staticFontsPath, 'NotoSansThai-Bold.ttf'),
+      'font-awesome.css': path.join(fontAwesomeCssPath , 'font-awesome.css')
+    },
     extensions: [ '', '.js', '.json', '.jsx' ],
-    modulesDirectories: [
+    modules: [
       'src',
       'node_modules'
     ]
@@ -70,17 +91,30 @@ module.exports = {
         'sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true'
       ].join('!'))
     }, { 
-      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, 
-      loader: 'url?limit=10000&mimetype=application/font-woff'
-    }, { 
-      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, 
-      loader: 'url?limit=10000&mimetype=application/font-woff'
+      test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, 
+      loader: 'url?limit=10000&mimetype=application/font-woff',
+      include: [
+        fontAwesomeFontsPath
+      ]
     }, { 
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, 
-      loader: 'url?limit=10000&mimetype=application/octet-stream'
+      loader: 'file?limit=10000&mimetype=application/octet-stream',
+      include: [
+        fontAwesomeFontsPath,
+        staticFontsPath
+      ]
     }, { 
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, 
-      loader: 'file' 
+      loader: 'file',
+      include: [
+        fontAwesomeFontsPath
+      ]
+    }, {
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, 
+      loader: 'url?limit=10000&mimetype=image/svg+xml',
+      include: [
+        fontAwesomeFontsPath
+      ]
     }, {
       test: webpackIsomorphicToolsPlugin.regular_expression('images'),
       loader: 'url?limit=10000&name=[hash].[ext]'
