@@ -8,8 +8,10 @@
 import _ from 'lodash'
 import path from 'path'
 import helmet from 'helmet'
-import enforce from 'express-sslify';
+import enforce from 'express-sslify'
 import Express from 'express'
+import session from 'express-session'
+import RedisStore from 'connect-redis'
 import compression from 'compression'
 
 import React from 'react'
@@ -44,17 +46,35 @@ const apiVersion = 'v1'
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
 let webpackConfig = require('./webpack.config')
 
-// Log all request URL
-app.use((req, res, next) => {
-  console.log('%s [info] %s', new Date().toString(), req.originalUrl)
-  return next()
-})
+// Setup Redis session
+app.use(session({
+  store: new (RedisStore(session))({
+    url: process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+  }),
+  secret: '^z!CG%7WsdPq',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true
+  }
+}))
 
 // Compress all output
 app.use(compression())
 
 // Secure Express website with Helmet
 app.use(helmet())
+
+// Log all request URL
+app.use((req, res, next) => {
+  // Verify Redis session is working or not?
+  if ( ! req.session) {
+    console.log('%s [error] Redis session not working', new Date().toString());
+  }
+  
+  console.log('%s [info] %s', new Date().toString(), req.originalUrl)
+  return next()
+})
 
 // Setup API routes
 app.use(`${apiBaseUrl}/${apiVersion}`, api)
