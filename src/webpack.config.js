@@ -84,7 +84,7 @@ module.exports = {
       exclude: /node_modules/,
       include: __dirname,
     }, { 
-      test: /\.scss$/, 
+      test: /\.s?css$/, 
       loader: ExtractTextPlugin.extract('style', [
         'css?modules&importLoaders=2&sourceMap',
         'autoprefixer?browsers=last 2 version&browsers=safari 5&browsers=ie 9',
