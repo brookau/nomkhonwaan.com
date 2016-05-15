@@ -5,18 +5,24 @@
 // @created April 29, 2016
 //
 
-// var fse = require('fs-extra')
+var _ = require('lodash')
+var fse = require('fs-extra')
 var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-configuration'))
 
-// // Using fs-extra to copy all assets directories from src/ to dist/
-// fse.copySync(
-//   path.resolve(__dirname, '..', 'src', 'stylesheets'), 
-//   path.resolve(__dirname, '..', 'dist', 'stylesheets')
-// )
+// Using fs-extra to copy static files from src/ to dist/
+_.each(
+  ['fonts', 'images', 'stylesheets'],
+  (dirname) => {
+    fse.copySync(
+      path.resolve(__dirname, '..', 'src', dirname),
+      path.resolve(__dirname, '..', 'dist', dirname)
+    )  
+  }
+)
 
 module.exports = {
   devtool: 'cheap-module-source-map',
