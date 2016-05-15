@@ -7,7 +7,7 @@
 
 @charset 'UTF-8';
 
-@import './_base';
+@import './main';
 
 .author {
   background: #f2f2f2;
@@ -16,7 +16,7 @@
   margin-top: 48px;
   padding: 12px 0;
 
-  @media (min-width: $screen-medium) {
+  @include breakpoint($md) {
     margin-top: 0;
     padding: 24px 0;
   }

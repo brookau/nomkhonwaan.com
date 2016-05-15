@@ -14,7 +14,7 @@ const Author = () => {
   return (
     <div className={styles.author}>
       <a href="https://www.nomkhonwaan.com" className={classNames(styles.avatar, styles._center)}>
-        <img src={require('../../static/images/nomkhonwaan.jpg')} alt="" />
+        <img src={require('../images/avatar.jpg')} alt="" />
       </a>
       <h2 className={classNames(styles.description, styles._center)}>Trust me I'm Petdo</h2>
       <div className={classNames(styles.location, styles._center)}>Bangkok, Thailand</div>

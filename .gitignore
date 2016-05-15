@@ -10,7 +10,7 @@ npm-debug.log*
 .sass-cache
 
 dist
-static/bundle.js*
+public
 node_modules
 webpack-assets.json
 webpack-stats.json

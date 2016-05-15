@@ -8,13 +8,8 @@
 @charset 'UTF-8';
 
 @import '~normalize.css';
+@import '~breakpoint-sass/stylesheets/_breakpoint';
 
-// Responsive screen size
-$screen-small: 786px;
-$screen-medium: 991px;
-$screen-large: 1200px;
-
-// Noto Sans
 @font-face {
   font-family: 'Noto Sans';
   src: url('fonts/NotoSans-Regular.ttf') format('truetype'); 
@@ -35,8 +30,6 @@ $screen-large: 1200px;
   font-weight: 700;
   font-style: italic; 
 }
-
-// Noto Sans Thai
 @font-face {
   font-family: 'Noto Sans Thai';
   src: url('fonts/NotoSansThai-Regular.ttf') format('truetype'); 
@@ -47,17 +40,16 @@ $screen-large: 1200px;
   font-weight: 700;
 }
 
-$font-fixed-width: 'Source Code pro', monospace;
-$font-sans-serif: 'Noto Sans Thai', 'Noto Sans', sans-serif;
+$sm: 768px;
+$md: 991px;
+$lg: 1200px;
 
 ._left { text-align: left!important; }
 ._right { text-align: right!important; }
 ._center { text-align: center!important; }
 ._justify { text-align: justify!important; }
-
 ._unpadding { padding: 0!important; }
 ._unmargin { margin: 0!important; }
-
 ._pull-left { float: left!important; }
 ._pull-right { float: right!important; }
 
@@ -66,27 +58,17 @@ $font-sans-serif: 'Noto Sans Thai', 'Noto Sans', sans-serif;
   overflow: hidden!important;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
   background: #f9f9f9;
-  font-family: $font-sans-serif;
+  font-family: 'Noto Sans Thai', 'Noto Sans', sans-serif;
   font-size: 62.5%;
 }
 
 a, a:active, a:hover, a:visited {
   color: inherit;
   text-decoration: none;
-}
-
-b, strong {
-  font-weight: 700;
-}
-
-i, em {
-  font-style: italic;
 }
 
 .container {

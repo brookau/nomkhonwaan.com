@@ -5,20 +5,18 @@
 // @created April 29, 2016
 //
 
-var fse = require('fs-extra')
+// var fse = require('fs-extra')
 var path = require('path')
 var webpack = require('webpack')
-// var CopyWebpackPlugin = require('copy-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-configuration'))
 
-// Using fs-extra to copy stylesheets directory
-// from src/ to dist/ before compiling Webpack modules
-fse.copySync(
-  path.resolve(__dirname, '..', 'src', 'stylesheets'), 
-  path.resolve(__dirname, '..', 'dist', 'stylesheets')
-)
+// // Using fs-extra to copy all assets directories from src/ to dist/
+// fse.copySync(
+//   path.resolve(__dirname, '..', 'src', 'stylesheets'), 
+//   path.resolve(__dirname, '..', 'dist', 'stylesheets')
+// )
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -27,14 +25,13 @@ module.exports = {
   ],
   output: {
     filename: '[hash].js',
-    path: path.resolve(__dirname, '..', 'dist', 'static'),
+    path: path.join(__dirname, '..', 'public'),
     publicPath: '/static/'
   },
   resolve: {
     extensions: [ '', '.js', '.json', '.jsx' ],
     modulesDirectories: [
       'src',
-      'static',
       'node_modules'
     ]
   },
@@ -62,10 +59,10 @@ module.exports = {
       test: /\.jsx?$/,
       loader: 'babel',
       exclude: /node_modules/,
-      include: __dirname,
-    }, { 
-      test: /\.s?css$/, 
-      loader: ExtractTextPlugin.extract('style', [
+      include: __dirname
+    }, {
+      test: /\.s?css$/,
+       loader: ExtractTextPlugin.extract('style', [
         'css?modules&importLoaders=2&sourceMap',
         'autoprefixer?browsers=last 2 version&browsers=safari 5&browsers=ie 9',
         'sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true'

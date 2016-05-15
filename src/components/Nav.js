@@ -11,8 +11,10 @@ import { connect } from 'react-redux'
 import { onClickMenuButton } from '../actions'
 
 const Nav = ({ dispatch, isExpanded }) => {
-  const styles = require('../stylesheets/Nav.scss')
-  const fa = require('font-awesome/css/font-awesome.css')
+  const styles = Object.assign({}, 
+    require('../stylesheets/Nav.scss'),
+    require('font-awesome/scss/font-awesome.scss')
+  )
   
   return (
     <nav className={styles['layout-nav']}>
@@ -26,41 +28,41 @@ const Nav = ({ dispatch, isExpanded }) => {
           title: 'Home',
           href: '//www.nomkhonwaan.com',
           iconClass: [
-            fa.fa,
-            fa['fa-fw'],
-            fa['fa-home'] 
+            styles.fa,
+            styles['fa-fw'],
+            styles['fa-home'] 
           ]
         }, {
           title: 'GitHub',
           href: '//github.com/nomkhonwaan',
           iconClass: [
-            fa.fa,
-            fa['fa-fw'],
-            fa['fa-github-square']
+            styles.fa,
+            styles['fa-fw'],
+            styles['fa-github-square']
           ]
         }, {
           title: 'Twitter',
           href: '//twitter.com/nomkhonwaan',
           iconClass: [
-            fa.fa,
-            fa['fa-fw'],
-            fa['fa-twitter-square']
+            styles.fa,
+            styles['fa-fw'],
+            styles['fa-twitter-square']
           ]
         }, {
           title: 'LinkedIn',
           href: '//linkedin.com/in/nomkhonwaan',
           iconClass: [
-            fa.fa,
-            fa['fa-fw'],
-            fa['fa-linkedin-square']
+            styles.fa,
+            styles['fa-fw'],
+            styles['fa-linkedin-square']
           ]
         }, {
           title: 'RSS',
           href: '//www.nomkhonwaan.com/rss',
           iconClass: [
-            fa.fa,
-            fa['fa-fw'],
-            fa['fa-rss-square']
+            styles.fa,
+            styles['fa-fw'],
+            styles['fa-rss-square']
           ]
         }].map((item, key) => 
           <li className={styles['menu-item']} key={key}>
@@ -79,7 +81,7 @@ const Nav = ({ dispatch, isExpanded }) => {
             event.preventDefault()
           })
       }}>
-        Menu
+        <i className={classNames(styles.fa, styles['fa-fw'], styles['fa-bars'])}></i>&nbsp;Menu
       </button>
     </nav>
   )
