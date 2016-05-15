@@ -52,6 +52,9 @@
 //   }]
 // }
 
-// Get list of posts
-export const getPosts = (req, res) => {
+export const getPosts = (req, res, next) => {
+}
+
+export const getPost = (req, res, next) => {
+
 }

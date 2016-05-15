@@ -6,7 +6,11 @@
 //
 
 import * as Posts from './PostsController'
+import * as Tags  from './TagsController'
+import * as Users from './UsersController'
 
 export {
-  Posts
+  Posts,
+  Tags,
+  Users
 }
