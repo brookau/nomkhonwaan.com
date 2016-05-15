@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { onClickMenuButton } from '../actions'
 
 const Nav = ({ dispatch, isExpanded }) => {
-  const styles = require('../stylesheets/components/Nav.scss')
+  const styles = require('stylesheets/Nav.scss')
   const faStyles = require('font-awesome/css/font-awesome.css')
   
   return (
