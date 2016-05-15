@@ -8,7 +8,7 @@
 import _ from 'lodash'
 import path from 'path'
 import helmet from 'helmet'
-import enforce from 'express-sslify'
+// import enforce from 'express-sslify'
 import Express from 'express'
 import session from 'express-session'
 import RedisStore from 'connect-redis'
@@ -84,9 +84,9 @@ app.use('/static', Express.static(webpackConfig.output.path))
 
 // Setup extra parameters for production environment
 if (process.env.NODE_ENV === 'production') {
-  app.use(enforce.HTTPS({
-    trustProtoHeader: true
-  }))  
+  // app.use(enforce.HTTPS({
+  //   trustProtoHeader: true
+  // }))  
 } 
 
 // Setup extra parameters for development environment
