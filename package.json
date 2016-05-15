@@ -34,6 +34,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "express-sslify": "^1.0.1",
+    "font-awesome": "^4.6.1",
     "helmet": "^2.0.0",
     "knex": "^0.10.0",
     "lodash": "^4.11.2",
