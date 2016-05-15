@@ -8,7 +8,7 @@
 import React from 'react'
 
 const Footer = () => {
-  const styles = require('stylesheets/Footer.scss')
+  const styles = require('../stylesheets/Footer.scss')
   
   return (
     <footer className={styles['layout-footer']}>

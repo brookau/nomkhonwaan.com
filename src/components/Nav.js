@@ -11,8 +11,8 @@ import { connect } from 'react-redux'
 import { onClickMenuButton } from '../actions'
 
 const Nav = ({ dispatch, isExpanded }) => {
-  const styles = require('stylesheets/Nav.scss')
-  const faStyles = require('font-awesome/css/font-awesome.css')
+  const styles = require('../stylesheets/Nav.scss')
+  const fa = require('font-awesome/css/font-awesome.css')
   
   return (
     <nav className={styles['layout-nav']}>
@@ -26,41 +26,41 @@ const Nav = ({ dispatch, isExpanded }) => {
           title: 'Home',
           href: '//www.nomkhonwaan.com',
           iconClass: [
-            faStyles.fa,
-            faStyles['fa-fw'],
-            faStyles['fa-home'] 
+            fa.fa,
+            fa['fa-fw'],
+            fa['fa-home'] 
           ]
         }, {
           title: 'GitHub',
           href: '//github.com/nomkhonwaan',
           iconClass: [
-            faStyles.fa,
-            faStyles['fa-fw'],
-            faStyles['fa-github-square']
+            fa.fa,
+            fa['fa-fw'],
+            fa['fa-github-square']
           ]
         }, {
           title: 'Twitter',
           href: '//twitter.com/nomkhonwaan',
           iconClass: [
-            faStyles.fa,
-            faStyles['fa-fw'],
-            faStyles['fa-twitter-square']
+            fa.fa,
+            fa['fa-fw'],
+            fa['fa-twitter-square']
           ]
         }, {
           title: 'LinkedIn',
           href: '//linkedin.com/in/nomkhonwaan',
           iconClass: [
-            faStyles.fa,
-            faStyles['fa-fw'],
-            faStyles['fa-linkedin-square']
+            fa.fa,
+            fa['fa-fw'],
+            fa['fa-linkedin-square']
           ]
         }, {
           title: 'RSS',
           href: '//www.nomkhonwaan.com/rss',
           iconClass: [
-            faStyles.fa,
-            faStyles['fa-fw'],
-            faStyles['fa-rss-square']
+            fa.fa,
+            fa['fa-fw'],
+            fa['fa-rss-square']
           ]
         }].map((item, key) => 
           <li className={styles['menu-item']} key={key}>

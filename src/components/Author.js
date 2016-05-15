@@ -9,7 +9,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 const Author = () => {
-  const styles = require('stylesheets/Author.scss')
+  const styles = require('../stylesheets/Author.scss')
   
   return (
     <div className={styles.author}>
