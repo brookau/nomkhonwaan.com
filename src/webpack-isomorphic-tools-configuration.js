@@ -21,7 +21,7 @@ module.exports = {
       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
     },
     style_modules: {
-      extensions: [ 'scss' ]
+      extensions: [ 'css', 'scss' ]
     }
   }
 }
