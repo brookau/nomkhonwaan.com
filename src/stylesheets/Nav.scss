@@ -7,7 +7,7 @@
 
 @charset 'UTF-8';
 
-@import '../_base';
+@import './_base';
 
 .layout-nav {
   @extend .container;
@@ -67,7 +67,6 @@
         font-size: 1.1rem;
         line-height: initial;
         padding: 12px;
-        text-transform: uppercase;
         transition: all .2s ease-in-out;
         
         @media (min-width: $screen-medium) {
