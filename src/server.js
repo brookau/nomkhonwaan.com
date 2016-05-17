@@ -96,6 +96,10 @@ else if (process.env.NODE_ENV === 'development') {
       ...webpackConfig.entry,
       'webpack-hot-middleware/client?path=/__webpack_hmr'
     ],
+    output: {
+      ...webpackConfig.output,
+      filename: 'bundle.js'
+    },
     plugins: [
       ...
       _.reduce(webpackConfig.plugins, (result, value) => {
