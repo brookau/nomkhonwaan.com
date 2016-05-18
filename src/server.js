@@ -36,7 +36,7 @@ import { Html } from './components'
 import apiRoutes from './api'
 
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
-let webpackConfig = require('./webpack.config')
+let webpackConfig = require('./webpack.config').default
 
 export default (app) => {
   // Setupp MongoDB connection using Mongoose library

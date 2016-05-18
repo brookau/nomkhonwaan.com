@@ -5,10 +5,10 @@
 // @created May 2, 2016
 //
 
-var path = require('path')
-var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
+import path from 'path'
+import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin'
 
-module.exports = {
+export default {
   webpack_assets_file_path: 'webpack-assets.json',
   webpack_stats_file_path: 'webpack-stats.json',
   assets: {

@@ -5,13 +5,15 @@
 // @created April 29, 2016
 //
 
-var _ = require('lodash')
-var fse = require('fs-extra')
-var path = require('path')
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
-var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-configuration'))
+import _ from 'lodash'
+import fse from 'fs-extra'
+import path from 'path'
+import webpack from 'webpack'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin'
+import webpackIsomorphicToolsConfiguration from './webpack-isomorphic-tools-configuration'
+
+const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
 
 // Using fs-extra to copy static files from src/ to dist/
 _.each(
@@ -24,7 +26,7 @@ _.each(
   }
 )
 
-module.exports = {
+export default {
   devtool: 'cheap-module-source-map',
   entry: [
     path.join(__dirname, 'client.js')
