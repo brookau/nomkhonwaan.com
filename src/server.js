@@ -11,6 +11,7 @@ import helmet from 'helmet'
 // import enforce from 'express-sslify'
 import Express from 'express'
 import session from 'express-session'
+import mongoose from 'mongoose'
 import RedisStore from 'connect-redis'
 import compression from 'compression'
 
@@ -45,6 +46,9 @@ const apiVersion = 'v1'
 
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
 let webpackConfig = require('./webpack.config')
+
+// Setupp MongoDB connection using Mongoose library
+mongoose.connect(process.env.MONGO_URI || '127.0.0.1:27017')
 
 // Setup Redis session
 app.use(session({
@@ -97,7 +101,13 @@ else if (process.env.NODE_ENV === 'development') {
       'webpack-hot-middleware/client?path=/__webpack_hmr'
     ],
     output: {
-      ...webpackConfig.output,
+      ...
+      _.reduce(webpackConfig.output, (result, value, key) => {
+        if (key !== 'filename') {
+          result[key] = value
+        }
+        return result
+      }, {}),
       filename: 'bundle.js'
     },
     plugins: [
