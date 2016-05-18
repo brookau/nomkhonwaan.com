@@ -8,7 +8,6 @@
 import _ from 'lodash'
 import path from 'path'
 import helmet from 'helmet'
-// import enforce from 'express-sslify'
 import Express from 'express'
 import session from 'express-session'
 import mongoose from 'mongoose'
@@ -34,180 +33,169 @@ import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
 
-import api from './api'
-
-const app = Express()
-
-// All of API endpoint will started with the API base URL
-const apiBaseUrl = '/api'
-
-// Current API version
-const apiVersion = 'v1'
+import apiRoutes from './api'
 
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
 let webpackConfig = require('./webpack.config')
 
-// Setupp MongoDB connection using Mongoose library
-mongoose.connect(process.env.MONGO_URI || '127.0.0.1:27017')
+export default (app) => {
+  // Setupp MongoDB connection using Mongoose library
+  mongoose.connect(process.env.MONGODB_URI || '127.0.0.1:27017')
 
-// Setup Redis session
-app.use(session({
-  store: new (RedisStore(session))({
-    url: process.env.REDIS_URL || 'redis://127.0.0.1:6379'
-  }),
-  secret: '^z!CG%7WsdPq',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true
-  }
-}))
-
-// Compress all output
-app.use(compression({
-  // Levels are specified in a range of 0 to 9, where-as 0 is
-  // no compression and 9 is best compression, but slowest
-  level: 9
-}))
-
-// Secure Express website with Helmet
-app.use(helmet())
-
-// Log all request URL
-app.use((req, res, next) => {
-  // Verify Redis session is working or not?
-  if ( ! req.session) {
-    console.log('%s [error] Redis session not working', new Date().toString());
-  }
-  
-  console.log('%s [info] %s', new Date().toString(), req.originalUrl)
-  return next()
-})
-
-// Setup API routes
-app.use(`${apiBaseUrl}/${apiVersion}`, api)
-
-// Serve static directory
-app.use('/static', Express.static(webpackConfig.output.path))
-
-// Setup extra parameters for production environment
-if (process.env.NODE_ENV === 'production') {
-  // app.use(enforce.HTTPS({
-  //   trustProtoHeader: true
-  // }))  
-} 
-
-// Setup extra parameters for development environment
-else if (process.env.NODE_ENV === 'development') {
-  webpackConfig = Object.assign({}, webpackConfig, {
-    entry: [
-      ...webpackConfig.entry,
-      'webpack-hot-middleware/client?path=/__webpack_hmr'
-    ],
-    output: {
-      ...
-      _.reduce(webpackConfig.output, (result, value, key) => {
-        if (key !== 'filename') {
-          result[key] = value
-        }
-        return result
-      }, {}),
-      filename: 'bundle.js'
-    },
-    plugins: [
-      ...
-      _.reduce(webpackConfig.plugins, (result, value) => {
-        if (value.constructor.name !== 'Webpack_isomorphic_tools_plugin' && 
-            value.constructor.name !== 'DefinePlugin' && 
-            value.constructor.name !== 'UglifyJsPlugin') {
-          result.push(value)
-        }
-        return result
-      }, []),
-      webpackIsomorphicToolsPlugin.development(),
-      new webpack.DefinePlugin({ 
-        'process.env': { 
-          'NODE_ENV': JSON.stringify('development') 
-        } 
-      }),
-      new webpack.HotModuleReplacementPlugin()
-    ]
-  })
-  
-  // Remove require() cache
-  global.webpackIsomorphicTools.refresh()
-  
-  // Webpack 
-  const compiler = webpack(webpackConfig)
-  
-  app.use(webpackDevMiddleware(compiler, {
-    publicPath: webpackConfig.output.publicPath,
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    },
-    stats: {
-      colors: true
+  // Setup Redis session
+  app.use(session({
+    store: new (RedisStore(session))({
+      url: process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+    }),
+    secret: '^z!CG%7WsdPq',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true
     }
   }))
 
-  app.use(webpackHotMiddleware(compiler, {
-    log: console.log
+  // Compress all output
+  app.use(compression({
+    // Levels are specified in a range of 0 to 9, where-as 0 is
+    // no compression and 9 is best compression, but slowest
+    level: 9
   }))
-}
 
-app.use((req, res, next) => {
-  // Create a Redux store instance
-  const store = createStore(reducers)
+  // Secure Express website with Helmet
+  app.use(helmet())
+  
+  // Hide X-Powered-By header
+  app.disable('x-powered-by')
 
-  // Grab the initial state from our Redux store
-  const initialState = store.getState()
+  // Log all request URL
+  app.use((req, res, next) => {
+    // Verify Redis session is working or not?
+    if ( ! req.session) {
+      console.log('%s [error] Redis session not working', new Date().toString());
+    }
+    
+    console.log('%s [info] %s', new Date().toString(), req.originalUrl)
+    return next()
+  })
 
-  // Integrate with react-router-redux
-  const history = syncHistoryWithStore(createMemoryHistory(req.originalUrl), store)
+  // Setup API routes
+  app.use(`/api/v1`, apiRoutes)
 
-  match({
-    routes,
-    location: req.originalUrl,
-    history
-  }, (err, redirect, renderProps) => {
-    if (err) {
-      return next(err)
-    } else if (redirect) {
-      return res.redirect(redirect)
-    } else if (renderProps) {
-      const components = (
-        <Provider store={store} key="provider">
-          <ReduxAsyncConnect {...renderProps} />
-        </Provider>
-      )
-      
-      loadOnServer({ ...renderProps, store })
-        .then(
-          () => 
-            res
-              .status(200)
-              .send('<!DOCTYPE html>' + renderToString(
-                <Html assets={webpackIsomorphicTools.assets()}
-                  initialState={initialState} 
-                  components={(process.env.NODE_ENV === 'development'
-                    ? null
-                    : components)} />
-              )), 
-          (err) => 
-            next(err)
+  // Serve static directory
+  app.use('/static', Express.static(webpackConfig.output.path))
+
+  // Setup extra parameters for production environment
+  if (process.env.NODE_ENV === 'production') {
+    // app.use(enforce.HTTPS({
+    //   trustProtoHeader: true
+    // }))  
+  } 
+
+  // Setup extra parameters for development environment
+  else if (process.env.NODE_ENV === 'development') {
+    webpackConfig = Object.assign({}, webpackConfig, {
+      entry: [
+        ...webpackConfig.entry,
+        'webpack-hot-middleware/client?path=/__webpack_hmr'
+      ],
+      output: {
+        ...
+        _.reduce(webpackConfig.output, (result, value, key) => {
+          if (key !== 'filename') {
+            result[key] = value
+          }
+          return result
+        }, {}),
+        filename: 'bundle.js'
+      },
+      plugins: [
+        ...
+        _.reduce(webpackConfig.plugins, (result, value) => {
+          if (value.constructor.name !== 'Webpack_isomorphic_tools_plugin' && 
+              value.constructor.name !== 'DefinePlugin' && 
+              value.constructor.name !== 'UglifyJsPlugin') {
+            result.push(value)
+          }
+          return result
+        }, []),
+        webpackIsomorphicToolsPlugin.development(),
+        new webpack.DefinePlugin({ 
+          'process.env': { 
+            'NODE_ENV': JSON.stringify('development') 
+          } 
+        }),
+        new webpack.HotModuleReplacementPlugin()
+      ]
+    })
+    
+    // Remove require() cache
+    global.webpackIsomorphicTools.refresh()
+    
+    // Webpack 
+    const compiler = webpack(webpackConfig)
+    
+    app.use(webpackDevMiddleware(compiler, {
+      publicPath: webpackConfig.output.publicPath,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      stats: {
+        colors: true
+      }
+    }))
+
+    app.use(webpackHotMiddleware(compiler, {
+      log: console.log
+    }))
+  }
+
+  app.use((req, res, next) => {
+    // Create a Redux store instance
+    const store = createStore(reducers)
+
+    // Grab the initial state from our Redux store
+    const initialState = store.getState()
+
+    // Integrate with react-router-redux
+    const history = syncHistoryWithStore(createMemoryHistory(req.originalUrl), store)
+
+    match({
+      routes,
+      location: req.originalUrl,
+      history
+    }, (err, redirect, renderProps) => {
+      if (err) {
+        return next(err)
+      } else if (redirect) {
+        return res.redirect(redirect)
+      } else if (renderProps) {
+        const components = (
+          <Provider store={store} key="provider">
+            <ReduxAsyncConnect {...renderProps} />
+          </Provider>
         )
-    } else {
-      return res.status(404).send('Page not found')
-    }
+        
+        loadOnServer({ ...renderProps, store })
+          .then(
+            () => 
+              res
+                .status(200)
+                .send('<!DOCTYPE html>' + renderToString(
+                  <Html assets={webpackIsomorphicTools.assets()}
+                    initialState={initialState} 
+                    components={(process.env.NODE_ENV === 'development'
+                      ? null
+                      : components)} />
+                )), 
+            (err) => 
+              next(err)
+          )
+      } else {
+        return res.status(404).send('Page not found')
+      }
+    })
   })
-})
-
-const server = app.listen(process.env.PORT || 8080, '0.0.0.0', (err) => {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log('Server listening at http://%s:%s', server.address().address,
-      server.address().port)
-    console.log('Press Ctrl+C to quit.')
-  }
-})
+  
+  return app
+}
