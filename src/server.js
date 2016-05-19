@@ -39,7 +39,7 @@ const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIso
 let webpackConfig = require('./webpack.config').default
 
 export default (app) => {
-  // Setupp MongoDB connection using Mongoose library
+  // SetuppMongoDB connection using Mongoose library
   mongoose.connect(process.env.MONGODB_URI)
 
   // Setup Redis session
