@@ -47,7 +47,7 @@ export default (app) => {
     store: new (RedisStore(session))({
       url: process.env.REDIS_URL
     }),
-    secret: '^z!CG%7WsdPq',
+    secret: process.env.REDIS_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
