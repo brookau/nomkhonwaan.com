@@ -6,11 +6,15 @@
 //
 
 import path from 'path'
+import dotenv from 'dotenv'
 import Express from 'express'
 import WebpackIsomorphicTools from 'webpack-isomorphic-tools'
 import webpackIsomorphicToolsConfiguration from './webpack-isomorphic-tools-configuration'
 
 import Server from './server'
+
+// Parse .env file
+dotenv.config()
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(webpackIsomorphicToolsConfiguration)
   .development(process.env.NODE_ENV === 'development')

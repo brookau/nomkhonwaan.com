@@ -40,12 +40,12 @@ let webpackConfig = require('./webpack.config').default
 
 export default (app) => {
   // Setupp MongoDB connection using Mongoose library
-  mongoose.connect(process.env.MONGODB_URI || '127.0.0.1:27017')
+  mongoose.connect(process.env.MONGODB_URI)
 
   // Setup Redis session
   app.use(session({
     store: new (RedisStore(session))({
-      url: process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+      url: process.env.REDIS_URL
     }),
     secret: '^z!CG%7WsdPq',
     resave: false,
