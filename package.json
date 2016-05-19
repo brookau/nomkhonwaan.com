@@ -25,7 +25,6 @@
   "license": "MIT",
   "homepage": "https://www.nomkhonwaan.com",
   "dependencies": {
-    "bookshelf": "^0.9.4",
     "classnames": "^2.2.5",
     "compression": "^1.6.1",
     "connect-redis": "^3.0.2",
