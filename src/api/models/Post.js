@@ -5,9 +5,9 @@
 // @created May 14, 2016
 //
 
-import { model, Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
-const Post = model('Post', {
+let postSchema = new Schema({
   createdAt:   { type: Date, default: Date.now },
   updatedAt:   Date,
   publishedAt: Date,
@@ -17,6 +17,8 @@ const Post = model('Post', {
   slug:        String,
   markdown:    String,
   html:        String
+}, { 
+  collection: 'posts' 
 })
 
-export default Post
+export default mongoose.model('Post', postSchema)
