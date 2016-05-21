@@ -5,9 +5,9 @@
 // @created May 12, 2016
 //
 
-import * as Posts from './Posts'
-import * as Tags  from './Tags'
-import * as Users from './Users'
+import * as Posts from './posts'
+import * as Tags  from './tags'
+import * as Users from './users'
 
 export {
   Posts,
