@@ -8,17 +8,54 @@
 import Express from 'express'
 import {
   Posts,
-  Tags
+  Tags,
+  Users
 } from './controllers'
 
 const router = Express.Router()
 
-// Posts routes
-router.use('/posts', Posts.getPosts)
-router.use('/posts/:slug', Posts.getPost)
+// -- Before filters --
 
-// Tags routes
-router.use('/tags', Tags.getTags)
-router.use('/tags/:slug', Tags.getTag)
+// Set up response type as a JSON string
+router.use((req, res, next) => {
+  res.set({
+    'Content-Type': 'application/vnd.api+json'
+  })
+  
+  return next()
+})
+
+// -- 
+
+// Posts
+router.get('/posts', Posts.getPosts)
+router.get('/posts/:slug', Posts.getPost)
+
+// Tags
+router.get('/tags', Tags.getTags)
+router.get('/tags/:slug', Tags.getTag)
+
+// -- After filters --
+
+// Errors handler
+router.use((err, req, res, next) => {
+  console.log('%s [error] %s', 
+    new Date().toString(), 
+    err);
+  
+  res
+    .status(400)
+    .json({
+      errors: [{
+        // TODO: Make dynamic error status
+        status: 400,
+        // TODO: Make dynamic error title
+        title: "An error has occurred",
+        detail: err.toString()
+      }]
+    })
+})
+
+// --
 
 export default router
