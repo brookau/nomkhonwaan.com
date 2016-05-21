@@ -52,25 +52,112 @@
 //   }]
 // }
 
+import _ from 'lodash'
 import Q from 'q'
-
 import { Post } from '../models'
+
+const publicFields = [
+  'title',
+  'slug',
+  'publishedAt',
+  'html',
+  'tags',
+  'users'
+]
+
+const formatAuthor = ({
+  id, 
+  displayName,
+  email
+}) => {
+  return {
+    type: 'users',
+    id,
+    attributes: {
+      displayName,
+      email
+    }
+  }
+}
+
+const formatPost = ({
+  _id, 
+  title, 
+  slug, 
+  publishedAt, 
+  html, 
+  tags,
+  users
+}) => {
+  return {
+    type: 'posts',
+    id: _id,
+    attributes: {
+      title,
+      slug,
+      // TODO: Include markdown field
+      // markdown,
+      html,
+      tags,
+      publishedAt,
+      // TODO: Include createdAt, updatedAt fields
+      // createdAt,
+      // updatedAt
+    },
+    relationships: {
+      // TODO: Check include author param
+      author: {
+        data: _.reduce(users, (result, value) => {
+          const {
+            id, 
+            type
+          } = formatAuthor(value)
+          
+          result.push({ id, type })
+          return result
+        }, [])
+      }
+    }
+  }
+}
 
 export const getPosts = (req, res, next) => {
   try {
-    let {
-      page
-    } = req.query
+    // Pagination
+    let page = req.query.page || {}
+    
+    // Default posts per page is 5
+    page.size = parseInt(page.size) || 5
+    page.number = parseInt(page.number) || 1
     
     Post
-      .find()
-      .skip((page.number - 1) * page.size).limit(page.size)
+      // TODO: Allow query on draft too
+      .find({
+        publishedAt: {
+          '$exists': true
+        }
+      })
+      // TODO: Allow query on private fields
+      .select(publicFields.join(' '))
+      .limit(page.size)
+      .skip((page.number - 1) * page.size)
+      // TODO: Allow order by other fields
+      .sort({
+        publishedAt: 'desc'
+      })
       .exec((err, items) => {
         if (err) {
           return next(err)
         }
         
-        res.send(items)
+        res.json({
+          data: _.reduce(items, (result, value) => {
+            result.push(formatPost(value))
+            return result
+          }, []),
+          // TODO: Check included params
+          included: []
+        })
       })
   } catch (err) {
     return next(err)
