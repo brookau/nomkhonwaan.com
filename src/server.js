@@ -191,8 +191,6 @@ export default (app) => {
             (err) => 
               next(err)
           )
-      } else {
-        return res.status(404).send('Page not found')
       }
     })
   })
