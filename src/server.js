@@ -81,7 +81,12 @@ export default (app) => {
 
   // Setup API routes
   app.use(`/api/v1`, apiRoutes)
-
+  
+  // Setup JSON response format
+  // TODO: Allow disable pretty JSON response
+  app.set('json spaces', 4)
+  app.set('json replacer', null)
+  
   // Serve static directory
   app.use('/static', Express.static(webpackConfig.output.path))
 
