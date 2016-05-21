@@ -52,7 +52,29 @@
 //   }]
 // }
 
+import Q from 'q'
+
+import { Post } from '../models'
+
 export const getPosts = (req, res, next) => {
+  try {
+    let {
+      page
+    } = req.query
+    
+    Post
+      .find()
+      .skip((page.number - 1) * page.size).limit(page.size)
+      .exec((err, items) => {
+        if (err) {
+          return next(err)
+        }
+        
+        res.send(items)
+      })
+  } catch (err) {
+    return next(err)
+  }
 }
 
 export const getPost = (req, res, next) => {

@@ -5,9 +5,9 @@
 // @created May 12, 2016
 //
 
-import * as Posts from './PostsController'
-import * as Tags  from './TagsController'
-import * as Users from './UsersController'
+import * as Posts from './Posts'
+import * as Tags  from './Tags'
+import * as Users from './Users'
 
 export {
   Posts,
