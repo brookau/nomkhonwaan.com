@@ -11,8 +11,6 @@ import Express from 'express'
 import WebpackIsomorphicTools from 'webpack-isomorphic-tools'
 import webpackIsomorphicToolsConfiguration from './webpack-isomorphic-tools-configuration'
 
-import Server from './server'
-
 // Parse .env file
 dotenv.config()
 
@@ -23,7 +21,7 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(webpackIsomorphicTool
     
     // Callback Express.js server after 
     // webpack-isomorphic-tools generated assets file
-    const server = Server(app)
+    const server = require('./server').default(app)
       .listen(process.env.PORT || 8080, '0.0.0.0', (err) => {
         if (err) {
           console.log(err)
