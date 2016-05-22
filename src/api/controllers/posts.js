@@ -56,7 +56,7 @@ import _ from 'lodash'
 import Q from 'q'
 import { Post } from '../models'
 
-const publicFields = [
+export const publicFields = [
   'title',
   'slug',
   'publishedAt',
