@@ -29,11 +29,6 @@ router.use((req, res, next) => {
 
 // Posts
 router.get('/posts', Posts.getPosts)
-router.get('/posts/:slug', Posts.getPost)
-
-// Tags
-router.get('/tags', Tags.getTags)
-router.get('/tags/:slug', Tags.getTag)
 
 // -- After filters --
 
