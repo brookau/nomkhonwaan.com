@@ -65,11 +65,15 @@ const publicFields = [
   'users'
 ]
 
-const formatAuthor = ({
-  id, 
-  displayName,
-  email
-}) => {
+/**
+ * Format post's author data
+ * 
+ * @param id          String  Author ID 
+ * @param displayName String  Author display name
+ * @param email       String  Author email
+ * @returns Object
+ */
+function formatAuthor({id, displayName, email }) {
   return {
     type: 'users',
     id,
@@ -80,15 +84,19 @@ const formatAuthor = ({
   }
 }
 
-const formatPost = ({
-  _id, 
-  title, 
-  slug, 
-  publishedAt, 
-  html, 
-  tags,
-  users
-}) => {
+/**
+ * Format post object
+ * 
+ * @param _id         String  Post ID
+ * @param title       String  Post title 
+ * @param slug        String  Post slug, **uniqued**
+ * @param publishedAt Date    Post published date - time 
+ * @param html        String  Post content as a HTML format
+ * @param tags        Array   Post's tags
+ * @param users       Array   Post's authors
+ * @returns Object
+ */
+function formatPost({ _id, title, slug, publishedAt, html, tags, users }) {
   return {
     type: 'posts',
     id: _id,
@@ -162,8 +170,4 @@ export const getPosts = (req, res, next) => {
   } catch (err) {
     return next(err)
   }
-}
-
-export const getPost = (req, res, next) => {
-
 }
