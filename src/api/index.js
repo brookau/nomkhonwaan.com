@@ -27,7 +27,7 @@ router.use((req, res, next) => {
 
 // -- 
 
-// Posts
+// /api/v1/posts 
 router.get('/posts', Posts.getPosts)
 
 // -- After filters --
