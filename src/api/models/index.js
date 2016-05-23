@@ -5,5 +5,7 @@
 // @created May 19, 2016
 //
 
-export Post from './post'
-export User from './user'
+import Post from './post'
+import User from './user'
+
+export { Post, User }
