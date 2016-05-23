@@ -72,6 +72,7 @@ describe('api/controllers/posts.js', () => {
             name: 'AngularJS',
             slug: 'angularjs'
           }],
+          title: '',
           users: [ author ],
           slug: '',
           markdown: '',
@@ -82,29 +83,30 @@ describe('api/controllers/posts.js', () => {
         .get('/api/v1/posts')
         .query({
           'page[number]': 1,
-          'page[size]': 5
+          'page[size]': 5,
+          'include': 'author'
         })
         .end((err, resp) => {
           expect(err).to.be.null
           
-          const [ post ] = resp.body.data
-          expect(post.type).to.equal('posts')
-          expect(post.id).to.equal(_id.toString())
-          expect(post.attributes.publishedAt).to.equal(publishedAt)
+          const posts = resp.body.data
+          expect(posts[0].type).to.equal('posts')
+          expect(posts[0].id).to.equal(_id.toString())
+          expect(posts[0].attributes.publishedAt).to.equal(publishedAt)
           
-          const [ tag ] = post.attributes.tags
-          expect(tag.name).to.equal('AngularJS')
-          expect(tag.slug).to.equal('angularjs')
+          const tags = posts[0].attributes.tags
+          expect(tags[0].name).to.equal('AngularJS')
+          expect(tags[0].slug).to.equal('angularjs')
           
-          const [ author ] = post.relationships.author.data
-          expect(author.type).to.equal('users')
-          expect(author.id).to.equal(user.id)
+          const authors = posts[0].relationships.author.data
+          expect(authors[0].type).to.equal('users')
+          expect(authors[0].id).to.equal(author.id.toString())
           
-          const [ user ] = resp.body.included
-          expect(user.type).to.equal('users')
-          expect(user.id).to.equal(user.id)
-          expect(user.attributes.displayName).to.equal(user.displayName)
-          expect(user.attributes.email).to.equal(user.email)
+          const users = resp.body.included
+          expect(users[0].type).to.equal('users')
+          expect(users[0].id).to.equal(author.id.toString())
+          expect(users[0].attributes.displayName).to.equal(author.displayName)
+          expect(users[0].attributes.email).to.equal(author.email)
           
           done()
         })

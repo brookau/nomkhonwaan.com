@@ -96,10 +96,10 @@ function format({ _id, title, slug, publishedAt, html, tags, users }) {
     relationships: {
       // TODO: Check include author param
       author: {
-        data: _.reduce(users, (result, { id }) => {
-          result.push({ 
-            id, 
-            type: 'users'
+        data: users.reduce((result, { id }) => {
+          result.push({
+            type: 'users',
+            id
           })
           
           return result
@@ -127,17 +127,17 @@ export function getPosts(req, res, next) {
     page.number = parseInt(page.number) || 1
     
     Post
-      // TODO: Allow query on draft too
+      // TODO: make dynamic find condition
       .find({
         publishedAt: {
           '$exists': true
         }
       })
-      // TODO: Allow query on private fields
+      // TODO: make dynamic select fields
       .select(publicFields.join(' '))
       .limit(page.size)
       .skip((page.number - 1) * page.size)
-      // TODO: Allow order by other fields
+      // TODO: make dynamic order
       .sort({
         publishedAt: 'desc'
       })
@@ -147,13 +147,34 @@ export function getPosts(req, res, next) {
         }
         
         res.json({
-          data: _.reduce(items, (result, value) => {
-            result.push(format(value))
+          data: items.reduce((result, item) => {
+            result.push(format(item))
             
             return result
           }, []),
-          // TODO: Check included params
-          included: []
+          // TODO: make dynamic included fields
+          // TODO: allow included related posts
+          included: items
+            .map((item) => {
+              return item.users
+            })
+            .reduce((result, users) => {
+              users.forEach(({ id, displayName, email }) => {
+                if ( ! _.includes(result, (user) => {
+                  return user.id === id
+                })) {
+                result.push({
+                    type: 'users',
+                    id,
+                    attributes: {
+                      displayName,
+                      email
+                    }
+                  })
+                }
+              })
+              return result
+            }, [])
         })
       })
   } catch (err) {
