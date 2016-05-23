@@ -66,25 +66,6 @@ export const publicFields = [
 ]
 
 /**
- * Format post's author data
- * 
- * @param id          String  Author ID 
- * @param displayName String  Author display name
- * @param email       String  Author email
- * @returns Object
- */
-function formatAuthor({id, displayName, email }) {
-  return {
-    type: 'users',
-    id,
-    attributes: {
-      displayName,
-      email
-    }
-  }
-}
-
-/**
  * Format post object
  * 
  * @param _id         String  Post ID
@@ -96,7 +77,7 @@ function formatAuthor({id, displayName, email }) {
  * @param users       Array   Post's authors
  * @returns Object
  */
-function formatPost({ _id, title, slug, publishedAt, html, tags, users }) {
+function format({ _id, title, slug, publishedAt, html, tags, users }) {
   return {
     type: 'posts',
     id: _id,
@@ -115,13 +96,12 @@ function formatPost({ _id, title, slug, publishedAt, html, tags, users }) {
     relationships: {
       // TODO: Check include author param
       author: {
-        data: _.reduce(users, (result, value) => {
-          const {
+        data: _.reduce(users, (result, { id }) => {
+          result.push({ 
             id, 
-            type
-          } = formatAuthor(value)
+            type: 'users'
+          })
           
-          result.push({ id, type })
           return result
         }, [])
       }
@@ -129,7 +109,15 @@ function formatPost({ _id, title, slug, publishedAt, html, tags, users }) {
   }
 }
 
-export const getPosts = (req, res, next) => {
+/**
+ * [GET] /api/posts
+ * 
+ * Get list of post, default return 5 latest published posts.
+ * 
+ * @param page.size   Integer  Item per page
+ * @param page.number Integer  Current page number
+ */
+export function getPosts(req, res, next) {
   try {
     // Pagination
     let page = req.query.page || {}
@@ -160,7 +148,8 @@ export const getPosts = (req, res, next) => {
         
         res.json({
           data: _.reduce(items, (result, value) => {
-            result.push(formatPost(value))
+            result.push(format(value))
+            
             return result
           }, []),
           // TODO: Check included params
