@@ -53,7 +53,7 @@ router.use((err, req, res, next) => {
         status: 400,
         // TODO: Make dynamic error title
         title: "An error has occurred",
-        detail: err.toString()
+        detail: err
       }]
     })
 })
