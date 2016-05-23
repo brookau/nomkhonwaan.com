@@ -7,6 +7,12 @@
 
 import mongoose, { Schema } from 'mongoose'
 
+/**
+ * Post model
+ * 
+ * Store both post content both of markdown and HTML string. 
+ * Special properties tags and users are de-normalized and follow MongoDB guide.
+ */
 export default mongoose.model(
   'Post', 
   new Schema({

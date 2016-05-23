@@ -7,6 +7,11 @@
 
 import mongoose, { Schema } from 'mongoose'
 
+/**
+ * User model
+ * 
+ * Store user profile, the user is post's author and system users.
+ */
 export default mongoose.model(
   'User', 
   new Schema({
