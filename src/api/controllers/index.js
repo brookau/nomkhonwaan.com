@@ -9,8 +9,4 @@ import * as Posts from './posts'
 import * as Tags  from './tags'
 import * as Users from './users'
 
-export {
-  Posts,
-  Tags,
-  Users
-}
+export default { Posts, Tags, Users }
