@@ -7,13 +7,14 @@
 
 import mongoose, { Schema } from 'mongoose'
 
-let userSchema = new Schema({
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: Date,
-  email: String,
-  displayName: String
-}, {
-  collection: 'users'
-})
-
-export default mongoose.model('User', userSchema)
+export default mongoose.model(
+  'User', 
+  new Schema({
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: Date,
+    email: String,
+    displayName: String
+  }, {
+    collection: 'users'
+  })
+)
