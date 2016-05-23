@@ -6,11 +6,7 @@
 //
 
 import Express from 'express'
-import {
-  Posts,
-  Tags,
-  Users
-} from './controllers'
+import { Posts } from './controllers'
 
 const router = Express.Router()
 
@@ -27,8 +23,19 @@ router.use((req, res, next) => {
 
 // -- 
 
+// ========================================================================== //
+
+// -- Routes -- 
+//
+// Place your routes here.
+//
+
 // /api/v1/posts 
 router.get('/posts', Posts.getPosts)
+
+// --
+
+// ========================================================================== //
 
 // -- After filters --
 
