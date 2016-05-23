@@ -134,7 +134,7 @@ export default (app) => {
       ]
     })
     
-    // Remove require() cache
+    // Disable require() cache
     global.webpackIsomorphicTools.refresh()
     
     // Webpack 
