@@ -10,7 +10,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { onClickMenuButton } from '../actions'
 
-const Nav = ({ dispatch, isExpanded }) => {
+function Nav({ dispatch, isExpanded }) {
   const styles = Object.assign({}, 
     require('../stylesheets/Nav.scss'),
     require('font-awesome/scss/font-awesome.scss')
@@ -87,7 +87,7 @@ const Nav = ({ dispatch, isExpanded }) => {
   )
 }
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
     isExpanded: state.myApp.isExpanded
   }

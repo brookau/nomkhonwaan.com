@@ -7,7 +7,7 @@
 
 import React from 'react'
 
-const Footer = () => {
+export default function Footer() {
   const styles = require('../stylesheets/Footer.scss')
   
   return (
@@ -16,5 +16,3 @@ const Footer = () => {
     </footer>
   )
 }
-
-export default Footer

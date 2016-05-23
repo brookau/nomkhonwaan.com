@@ -12,19 +12,19 @@ import {
   Header
 } from '../components'
 
-const App = ({ children }) => (
-  <div className="myApp">
-    <Helmet 
-      title="Nomkhonwaan"
-      titleTemplate="%s &middot; Trust me I'm Petdo" />
-    <Header />
-    {children}
-    <Footer />
-  </div>
-)
+export default function App({ children }) {
+  return (
+    <div className="myApp">
+      <Helmet 
+        title="Nomkhonwaan"
+        titleTemplate="%s &middot; Trust me I'm Petdo" />
+      <Header />
+      {children}
+      <Footer />
+    </div>
+  )
+}
 
 App.propTypes = {
   children: PropTypes.node.isRequired
 }
-
-export default App

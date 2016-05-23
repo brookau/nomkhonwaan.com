@@ -8,7 +8,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const Author = () => {
+export default function Author() {
   const styles = require('../stylesheets/Author.scss')
   
   return (
@@ -21,5 +21,3 @@ const Author = () => {
     </div>
   )
 }
-
-export default Author

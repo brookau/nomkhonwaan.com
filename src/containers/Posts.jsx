@@ -10,15 +10,19 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 
-const Posts = ({ year, month, date }) => (
-  <div></div>
-)
+function Posts({ year, month, date }) {
+  return (
+    <div></div>
+  )
+}
 
-const mapStateToProps = (state, ownProps) => ({
-  year: ownProps.params.year,
-  month: ownProps.params.month,
-  date: ownProps.params.date
-})
+function mapStateToProps(state, ownProps) {
+  return {
+    year: ownProps.params.year,
+    month: ownProps.params.month,
+    date: ownProps.params.date
+  }
+}
 
 Posts.propTypes = {
   year: PropTypes.string,

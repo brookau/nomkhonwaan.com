@@ -9,16 +9,20 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 
-const Post = ({ year, month, date, slug }) => (
-  <div></div>
-)
+function Post({ year, month, date, slug }) {
+  return (
+    <div></div>
+  )
+}
 
-const mapStateToProps = (state, ownProps) => ({
-  year: ownProps.params.year,
-  month: ownProps.params.month,
-  date: ownProps.params.date,
-  slug: ownProps.params.slug
-})
+function mapStateToProps(state, ownProps) {
+  return {
+    year: ownProps.params.year,
+    month: ownProps.params.month,
+    date: ownProps.params.date,
+    slug: ownProps.params.slug
+  }
+}
 
 Post.propTypes = {
   year: PropTypes.string.isRequired,
