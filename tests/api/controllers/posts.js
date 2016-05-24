@@ -17,6 +17,45 @@ import apiRoutes from '../../../src/api'
 import { publicFields } from '../../../src/api/controllers/posts'
 import { Post } from '../../../src/api/models'
 
+// -- Stub --
+
+const validAuthorsStub = [{
+  id: Types.ObjectId(),
+  displayName: 'Natcha Luang - Aroonchai',
+  email: 'me@nomkhonwaan.com'
+}]
+
+const validPostsStub = [{
+  _id: Types.ObjectId(),
+  publishedAt: Date.now(),
+  tags: [{
+    name: 'AngularJS',
+    slug: 'angularjs'
+  }],
+  title: '[Stub] AngularJS',
+  slug: 'stub-angularjs',
+  markdown: 'AngularJS',
+  html: '<p>AngularJS</p>',
+  users: validAuthorsStub
+}, {
+  _id: Types.ObjectId(),
+  publishedAt: Date.now(),
+  tags: [{
+    name: 'Banana',
+    slug: 'banana'
+  }],
+  title: '[Stub] Banana',
+  slug: 'stub-banana',
+  markdown: 'Banana',
+  html: '<p>Banana</p>',
+  users: validAuthorsStub
+}]
+
+// -- 
+
+// ==========================================================================
+
+// -- Test suite --
 
 describe('api/controllers/posts.js', () => {
   let agent
@@ -39,14 +78,6 @@ describe('api/controllers/posts.js', () => {
   
   describe('getPosts :: default parameters', () => {
     it('should return list of published post', (done) => {
-      const _id = Types.ObjectId()
-      const publishedAt = Date.now()
-      const author = {
-        id: Types.ObjectId(),
-        displayName: 'Natcha Luang - Aroonchai',
-        email: 'me@nomkhonwaan.com'
-      }
-      
       PostMock
         .expects('find')
           .withArgs({ 
@@ -65,34 +96,22 @@ describe('api/controllers/posts.js', () => {
             publishedAt: 'desc'
           })
         .chain('exec')
-        .yields(null, [{
-          _id,
-          publishedAt,
-          tags: [{
-            name: 'AngularJS',
-            slug: 'angularjs'
-          }],
-          title: '',
-          users: [ author ],
-          slug: '',
-          markdown: '',
-          html: ''
-        }])
+        .yields(null, validPostsStub)
         
       agent
         .get('/api/v1/posts')
         .query({
           'page[number]': 1,
-          'page[size]': 5,
-          'include': 'author'
+          'page[size]': 5
         })
         .end((err, resp) => {
           expect(err).to.be.null
           
           const posts = resp.body.data
+          expect(posts.length).to.equal(2)
           expect(posts[0].type).to.equal('posts')
-          expect(posts[0].id).to.equal(_id.toString())
-          expect(posts[0].attributes.publishedAt).to.equal(publishedAt)
+          expect(posts[0].id).to.equal(validPostsStub[0]._id.toString())
+          expect(posts[0].attributes.publishedAt).to.equal(validPostsStub[0].publishedAt)
           
           const tags = posts[0].attributes.tags
           expect(tags[0].name).to.equal('AngularJS')
@@ -100,16 +119,19 @@ describe('api/controllers/posts.js', () => {
           
           const authors = posts[0].relationships.author.data
           expect(authors[0].type).to.equal('users')
-          expect(authors[0].id).to.equal(author.id.toString())
+          expect(authors[0].id).to.equal(validAuthorsStub[0].id.toString())
           
           const users = resp.body.included
+          expect(users.length).to.equal(1)
           expect(users[0].type).to.equal('users')
-          expect(users[0].id).to.equal(author.id.toString())
-          expect(users[0].attributes.displayName).to.equal(author.displayName)
-          expect(users[0].attributes.email).to.equal(author.email)
+          expect(users[0].id).to.equal(validAuthorsStub[0].id.toString())
+          expect(users[0].attributes.displayName).to.equal(validAuthorsStub[0].displayName)
+          expect(users[0].attributes.email).to.equal(validAuthorsStub[0].email)
           
           done()
         })
     })
   })
 })
+
+// --
