@@ -159,21 +159,15 @@ export function getPosts(req, res, next) {
               return item.users
             })
             .reduce((result, users) => {
-              users.forEach(({ id, displayName, email }) => {
-                if ( ! _.includes(
-                  result.map((user) => {
-                    return user.id
-                  }),
-                  id
-                )) {
-                  result.push({
-                    type: 'users',
-                    id,
-                    attributes: {
-                      displayName,
-                      email
-                    }
-                  })
+              return _.uniqBy(result.concat(users), 'email')
+            }, [])
+            .reduce((result, { id, displayName, email }) => {
+              result.push({
+                type: 'users',
+                id,
+                attributes: {
+                  displayName,
+                  email
                 }
               })
               
