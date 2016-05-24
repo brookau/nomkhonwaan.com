@@ -9,7 +9,7 @@
     "start": "cross-env NODE_ENV=production npm run start:server",
     "start:server": "node ./dist/index.js",
     "dev": "cross-env NODE_ENV=development npm run dev:server",
-    "dev:server": "./node_modules/.bin/babel-node ./src/index.js",
+    "dev:server": "./node_modules/.bin/babel-node --debug ./src/index.js",
     "postinstall": "npm run build",
     "test": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter spec ./tests/ --compilers js:babel-register",
     "test:watch": "npm test -- --watch"
