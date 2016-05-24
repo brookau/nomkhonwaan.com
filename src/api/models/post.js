@@ -18,8 +18,15 @@ export default (mongoose.models.Post
     publishedAt: Date,
     tags:        [Schema.Types.Mixed],
     users:       [Schema.Types.Mixed],
-    title:       String,
-    slug:        String,
+    title:       {
+      type: String,
+      required: true
+    },
+    slug:        {
+      type: String,
+      unique: true,
+      required: true
+    },
     markdown:    String,
     html:        String
   }, { 
