@@ -160,10 +160,13 @@ export function getPosts(req, res, next) {
             })
             .reduce((result, users) => {
               users.forEach(({ id, displayName, email }) => {
-                if ( ! _.includes(result, (user) => {
-                  return user.id === id
-                })) {
-                result.push({
+                if ( ! _.includes(
+                  result.map((user) => {
+                    return user.id
+                  }),
+                  id
+                )) {
+                  result.push({
                     type: 'users',
                     id,
                     attributes: {
@@ -173,6 +176,7 @@ export function getPosts(req, res, next) {
                   })
                 }
               })
+              
               return result
             }, [])
         })
