@@ -110,6 +110,63 @@ function format({ _id, title, slug, publishedAt, html, tags, users }) {
 }
 
 /**
+ * Count all posts
+ * 
+ * To counting the post items with conditions that provided and return as a Promise function
+ * 
+ * @param conds Object  Conditions for selection
+ * @returns Integer
+ */
+function count(conds) {
+  const deferred = Q.defer()
+  
+  Post
+    .count(conds, (err, totalItems) => {
+      if (err) {
+        return deferred.reject(err)
+      }
+      
+      return deferred.resolve(totalItems)
+    })
+    
+  return deferred.promise
+}
+
+/**
+ * Pagination
+ * 
+ * To generate the page URL automatically by detect from current page, total items 
+ * and an items per page, so you can specific the base URL if you want
+ * 
+ * @param page          Integer Current page number
+ * @param itemsPerPage  Integer An items per one page 
+ * @param totalItems    Integer Total items 
+ * @param baseURL       string  Base URL when generate pagination URL
+ * @returns Object
+ */
+function pagination(page, itemsPerPage, totalItems, baseURL = '/') {
+  const links = {}
+  
+  if (page === 1) {
+    links.self = `${baseURL}`
+  } else {
+    links.self = `${baseURL}?page[number]=${page}&page[size]=${itemsPerPage}`
+  }
+  
+  if (totalItems > itemsPerPage) {
+    if (page > 1) {
+      links.previous = `${baseURL}?page[number]=${page - 1}&page[size]=${itemsPerPage}`
+    }
+    
+    if (page < Math.ceil(totalItems / itemsPerPage)) {
+      links.next = `${baseURL}?page[number]=${page + 1}&page[size]=${itemsPerPage}`
+    }
+  }
+  
+  return links
+}
+
+/**
  * [GET] /api/posts
  * 
  * Get list of post, default return 5 latest published posts.
@@ -126,27 +183,50 @@ export function getPosts(req, res, next) {
     page.size = parseInt(page.size) || 5
     page.number = parseInt(page.number) || 1
     
-    Post
-      // TODO: make dynamic find condition
-      .find({
-        publishedAt: {
-          '$exists': true
-        }
-      })
-      // TODO: make dynamic select fields
-      .select(publicFields.join(' '))
-      .limit(page.size)
-      .skip((page.number - 1) * page.size)
-      // TODO: make dynamic order
-      .sort({
-        publishedAt: 'desc'
-      })
-      .exec((err, items) => {
-        if (err) {
-          return next(err)
-        }
+    // Find conditions
+    const conds = {
+      publishedAt: {
+        '$exists': true
+      }
+    }
+    
+    count(conds)
+      .then((totalItems) => {
+        const deferred = Q.defer()
         
+        Post
+          // TODO: make dynamic find condition
+          .find(conds)
+          // TODO: make dynamic select fields
+          .select(publicFields.join(' '))
+          .limit(page.size)
+          .skip((page.number - 1) * page.size)
+          // TODO: make dynamic order
+          .sort({
+            publishedAt: 'desc'
+          })
+          .exec((err, items) => {
+            if (err) {
+              return deferred.reject(err)
+            }
+            
+            return deferred.resolve({ items, totalItems })
+          })
+          
+        return deferred.promise
+      }, (err) => {
+        throw err
+      })
+      .then(({ items, totalItems }) => {
         res.json({
+          meta: {
+            totalItems
+          },
+          links: pagination(
+            page.number, 
+            page.size, 
+            totalItems, 
+            req.fullURL),
           data: items.reduce((result, item) => {
             result.push(format(item))
             
@@ -174,6 +254,8 @@ export function getPosts(req, res, next) {
               return result
             }, [])
         })
+      }, (err) => {
+        throw err
       })
   } catch (err) {
     return next(err)

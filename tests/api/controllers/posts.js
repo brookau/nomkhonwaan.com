@@ -17,6 +17,8 @@ import apiRoutes from '../../../src/api'
 import { publicFields } from '../../../src/api/controllers/posts'
 import { Post } from '../../../src/api/models'
 
+import { url } from '../../../src/helpers'
+
 // -- Stub --
 
 const validAuthorsStub = [{
@@ -63,6 +65,7 @@ describe('api/controllers/posts.js', () => {
   
   before(() => {
     const app = Express()
+    app.use(url('/api/v1/posts'))
     app.use('/api/v1', apiRoutes)
     
     agent = request.agent(app)
@@ -76,8 +79,23 @@ describe('api/controllers/posts.js', () => {
     PostMock.restore()
   })
   
-  describe('getPosts', () => {
-    it('should return list of posts by default parameters', (done) => {
+  describe('getPosts :: only published posts', () => {
+    beforeEach(() => {
+      PostMock
+        .expects('count')
+          .withArgs({
+            publishedAt: {
+              '$exists': true,
+            }
+          })
+          .yields(null, 2)
+    })
+    
+    afterEach(() => {
+      PostMock.restore()
+    })
+        
+    it('should return list of posts by default page parameters', (done) => {
       PostMock
         .expects('find')
           .withArgs({ 
@@ -102,6 +120,14 @@ describe('api/controllers/posts.js', () => {
         .get('/api/v1/posts')
         .end((err, resp) => {
           expect(err).to.be.null
+          
+          const meta = resp.body.meta 
+          expect(meta.totalItems).to.equal(2)
+          
+          const links = resp.body.links 
+          expect(links.self).to.equal('/api/v1/posts')
+          expect(links.next).to.be.undefined
+          expect(links.previous).to.be.undefined
           
           const posts = resp.body.data
           expect(posts.length).to.equal(2)
@@ -128,7 +154,7 @@ describe('api/controllers/posts.js', () => {
         })
     })
     
-    it('should return list of posts by specific parameters', (done) => {
+    it('should return list of posts by specific page parameters', (done) => {
       PostMock
         .expects('find')
           .withArgs({
@@ -158,6 +184,14 @@ describe('api/controllers/posts.js', () => {
         .end((err, resp) => {
           expect(err).to.be.null
           
+          const meta = resp.body.meta
+          expect(meta.totalItems).to.equal(2)
+          
+          const links = resp.body.links
+          expect(links.self).to.equal('/api/v1/posts?page[number]=2&page[size]=1')
+          expect(links.next).to.be.undefined
+          expect(links.previous).to.equal('/api/v1/posts?page[number]=1&page[size]=1')
+         
           const posts = resp.body.data
           expect(posts.length).to.equal(1)
           expect(posts[0].type).to.equal('posts')
