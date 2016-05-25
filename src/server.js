@@ -31,9 +31,10 @@ import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
 
-import logger from './helpers/logger'
-import session from './helpers/session'
 import url from './helpers/url'
+import logger from './helpers/logger'
+import mongodb from './helpers/mongodb'
+import session from './helpers/session'
 
 import apiRoutes from './api'
 
@@ -41,9 +42,6 @@ const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIso
 let webpackConfig = require('./webpack.config').default
 
 export default (app) => {
-  // SetuppMongoDB connection using Mongoose library
-  mongoose.connect(process.env.MONGODB_URI)
-
   // Hide X-Powered-By header
   app.disable('x-powered-by')
 
@@ -59,6 +57,9 @@ export default (app) => {
   
   // Setup session 
   app.use(session())
+  
+  // SetupMongoDB connection
+  app.use(mongodb())
   
   // Setup URL
   app.use(url())
