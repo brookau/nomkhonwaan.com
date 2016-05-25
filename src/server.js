@@ -31,7 +31,7 @@ import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
 
-import session from './middleware/session'
+import session from './helpers/session'
 
 import apiRoutes from './api'
 
