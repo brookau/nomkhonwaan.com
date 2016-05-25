@@ -1,5 +1,5 @@
-// middleware/session.js
-// ---------------------
+// helpers/session.js
+// ------------------
 //
 // @author  Natcha Luang - Aroonchai <me@nomkhonwaan.com>
 // @created May 25, 2016
@@ -15,7 +15,7 @@ import RedisStore from 'connect-redis'
  * You can setup Redis connection and Redis secret key on .env file at the root
  * project directory.
  */
-export default function(req, res, next) {
+export default function() {
   return session({
     store: new (RedisStore(session))({
       url: process.env.REDIS_URL
