@@ -12,13 +12,15 @@ import { format } from 'url'
  * 
  * Set full URL (without query parameters) to Express request object
  */
-export default function() {
+export default function(url) {
   return function URL(req, res, next) {
-    req.fullURL = format({
-      protocol: req.protocol,
-      host: req.get('host'),
-      pathname: req.baseUrl
-    })
+    req.fullURL = (url 
+      ? url
+      : format({
+         protocol: req.protocol,
+          host: req.get('host'),
+          pathname: req.baseUrl
+        }))
     
     return next()
   }
