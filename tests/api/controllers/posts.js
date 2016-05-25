@@ -110,8 +110,8 @@ describe('api/controllers/posts.js', () => {
           expect(posts[0].attributes.publishedAt).to.equal(validPostsStub[0].publishedAt)
           
           const tags = posts[0].attributes.tags
-          expect(tags[0].name).to.equal('AngularJS')
-          expect(tags[0].slug).to.equal('angularjs')
+          expect(tags[0].name).to.equal(validPostsStub[0].tags[0].name)
+          expect(tags[0].slug).to.equal(validPostsStub[0].tags[0].slug)
           
           const authors = posts[0].relationships.author.data
           expect(authors[0].type).to.equal('users')
@@ -141,18 +141,18 @@ describe('api/controllers/posts.js', () => {
         .chain('limit')
           .withArgs(1)
         .chain('skip')
-          .withArgs((1 - 1) * 1)
+          .withArgs((2 - 1) * 1)
         .chain('sort')
           .withArgs({
             publishedAt: 'desc'
           })
         .chain('exec')
-        .yields(null, validPostsStub.slice(0, 1))
+        .yields(null, validPostsStub.slice(-1))
       
       agent
         .get('/api/v1/posts')
         .query({
-          'page[number]': 1,
+          'page[number]': 2,
           'page[size]': 1
         })
         .end((err, resp) => {
@@ -161,12 +161,12 @@ describe('api/controllers/posts.js', () => {
           const posts = resp.body.data
           expect(posts.length).to.equal(1)
           expect(posts[0].type).to.equal('posts')
-          expect(posts[0].id).to.equal(validPostsStub[0]._id.toString())
-          expect(posts[0].attributes.publishedAt).to.equal(validPostsStub[0].publishedAt)
+          expect(posts[0].id).to.equal(validPostsStub[1]._id.toString())
+          expect(posts[0].attributes.publishedAt).to.equal(validPostsStub[1].publishedAt)
           
           const tags = posts[0].attributes.tags
-          expect(tags[0].name).to.equal('AngularJS')
-          expect(tags[0].slug).to.equal('angularjs')
+          expect(tags[0].name).to.equal(validPostsStub[1].tags[0].name)
+          expect(tags[0].slug).to.equal(validPostsStub[1].tags[0].slug)
           
           const authors = posts[0].relationships.author.data
           expect(authors[0].type).to.equal('users')
