@@ -31,6 +31,7 @@ import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
 
+import logger from './helpers/logger'
 import session from './helpers/session'
 
 import apiRoutes from './api'
@@ -58,16 +59,8 @@ export default (app) => {
   // Hide X-Powered-By header
   app.disable('x-powered-by')
 
-  // Log all request URL
-  app.use((req, res, next) => {
-    // Verify Redis session is working or not?
-    if ( ! req.session) {
-      console.log('%s [error] Redis session not working', new Date().toString());
-    }
-    
-    console.log('%s [info] %s', new Date().toString(), req.originalUrl)
-    return next()
-  })
+  // Using Logger for logging!
+  app.use(logger())
 
   // Setup API routes prefix
   app.use(`/api/v1`, apiRoutes)
