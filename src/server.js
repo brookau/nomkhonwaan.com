@@ -33,6 +33,7 @@ import { Html } from './components'
 
 import logger from './helpers/logger'
 import session from './helpers/session'
+import url from './helpers/url'
 
 import apiRoutes from './api'
 
@@ -43,8 +44,8 @@ export default (app) => {
   // SetuppMongoDB connection using Mongoose library
   mongoose.connect(process.env.MONGODB_URI)
 
-  // Setup session 
-  app.use(session())
+  // Hide X-Powered-By header
+  app.disable('x-powered-by')
 
   // Compress all output
   app.use(compression({
@@ -56,8 +57,11 @@ export default (app) => {
   // Secure Express website with Helmet
   app.use(helmet())
   
-  // Hide X-Powered-By header
-  app.disable('x-powered-by')
+  // Setup session 
+  app.use(session())
+  
+  // Setup URL
+  app.use(url())
 
   // Using Logger for logging!
   app.use(logger())
