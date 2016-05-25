@@ -9,9 +9,7 @@ import _ from 'lodash'
 import path from 'path'
 import helmet from 'helmet'
 import Express from 'express'
-import session from 'express-session'
 import mongoose from 'mongoose'
-import RedisStore from 'connect-redis'
 import compression from 'compression'
 
 import React from 'react'
@@ -33,6 +31,8 @@ import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
 
+import session from './middleware/session'
+
 import apiRoutes from './api'
 
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfiguration)
@@ -42,18 +42,8 @@ export default (app) => {
   // SetuppMongoDB connection using Mongoose library
   mongoose.connect(process.env.MONGODB_URI)
 
-  // Setup Redis session
-  app.use(session({
-    store: new (RedisStore(session))({
-      url: process.env.REDIS_URL
-    }),
-    secret: process.env.REDIS_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: true
-    }
-  }))
+  // Setup session 
+  app.use(session())
 
   // Compress all output
   app.use(compression({
@@ -79,7 +69,7 @@ export default (app) => {
     return next()
   })
 
-  // Setup API routes
+  // Setup API routes prefix
   app.use(`/api/v1`, apiRoutes)
   
   // Setup JSON response format
