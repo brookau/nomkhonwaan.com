@@ -125,7 +125,7 @@ describe('api/controllers/posts.js', () => {
           expect(meta.totalItems).to.equal(2)
           
           const links = resp.body.links 
-          expect(links.self).to.equal('/api/v1/posts')
+          expect(links.self).to.equal('/api/v1/posts?page[number]=1&page[size]=5')
           expect(links.next).to.be.undefined
           expect(links.previous).to.be.undefined
           

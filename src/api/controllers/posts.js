@@ -145,12 +145,8 @@ function count(conds) {
  * @returns Object
  */
 function pagination(page, itemsPerPage, totalItems, baseURL = '/') {
-  const links = {}
-  
-  if (page === 1) {
-    links.self = `${baseURL}`
-  } else {
-    links.self = `${baseURL}?page[number]=${page}&page[size]=${itemsPerPage}`
+  const links = {
+    self: `${baseURL}?page[number]=${page}&page[size]=${itemsPerPage}`
   }
   
   if (totalItems > itemsPerPage) {
