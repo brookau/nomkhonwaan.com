@@ -10,14 +10,14 @@ import { format } from 'url'
 /**
  * URL
  * 
- * Set base URL to Express request object
+ * Set full URL (without query parameters) to Express request object
  */
 export default function() {
   return function URL(req, res, next) {
-    req.baseURL = format({
+    req.fullURL = format({
       protocol: req.protocol,
       host: req.get('host'),
-      pathname: req.originalUrl
+      pathname: req.baseUrl
     })
     
     return next()
