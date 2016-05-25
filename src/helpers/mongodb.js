@@ -15,7 +15,9 @@ import mongoose from 'mongoose'
  */
 export default function() {
   return function MongoDB(req, res, next) {
-    mongoose.connect(process.env.MONGODB_URI)
+    if ( ! mongoose.connection.readyState) {
+      mongoose.connect(process.env.MONGODB_URI)
+    }
     
     return next()
   }
