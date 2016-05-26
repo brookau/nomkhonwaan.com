@@ -5,7 +5,7 @@
 // @created April 29, 2016
 //
 
-import React, { PropTypes } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Helmet from 'react-helmet'
@@ -17,26 +17,26 @@ import Helmet from 'react-helmet'
  * @param month String  Publish month
  * @param date  String  Publish date
  */
-function Posts({ year, month, date }) {
-  return (
-    <div></div>
-  )
-}
-
-function mapStateToProps(state, ownProps) {
-  return {
-    year: ownProps.params.year,
-    month: ownProps.params.month,
-    date: ownProps.params.date
+class Posts extends Component {
+  constructor({ year, month, date}) {
+    super()
+    
+    this.propTypes = {
+      year: PropTypes.string,
+      month: PropTypes.string,
+      date: PropTypes.string
+    }
+  }
+  
+  render() {
+    return (
+      <div></div>
+    )
   }
 }
 
-Posts.propTypes = {
-  year: PropTypes.string,
-  month: PropTypes.string,
-  date: PropTypes.string
-}
-
-export default connect(
-  mapStateToProps
-)(Posts)
+export default connect((state, ownProps) => ({
+  year: ownProps.params.year,
+  month: ownProps.params.month,
+  date: ownProps.params.date
+}))(Posts)
