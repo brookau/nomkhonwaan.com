@@ -8,44 +8,26 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, compose } from 'redux'
-// import { ReduxAsyncConnect } from 'redux-async-connect'
+import { applyMiddleware, createStore, compose } from 'redux'
 import { ReduxAsyncConnect } from 'redux-connect'
 
 import { browserHistory, Router } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
-import { createDevTools, persistState } from 'redux-devtools'
-import LogMonitor from 'redux-devtools-log-monitor'
-import DockMonitor from 'redux-devtools-dock-monitor'
-
 import reducers from './reducers'
 import routes from './routes'
+import middleware from './middleware'
 
 // Grab the state from a global injected into server-generated HTML
 const initialState = window.__INITIAL_STATE__
-
-// Get running Node.js environment
-const env = window.__NODE_ENV__
-
-// Create new Redux DevTools instance
-const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
-    <LogMonitor theme="tomorrow" preserveScrollTop={false} />
-  </DockMonitor>
-)
 
 // Create Redux store with initial state
 const store = createStore(
   reducers,
   initialState,
   compose(
-    DevTools.instrument(),
-    persistState(
-      window.location.href.match(
-        /[?&]debug_session=([^&#]+)\b/
-      )
-    )
+    applyMiddleware(...middleware),
+    window.devToolsExtension && window.devToolsExtension()
   )
 )
 
@@ -54,16 +36,11 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 render(
   <Provider store={store} key="provider">
-    <div>
-      <Router render={(renderProps) =>
-        <ReduxAsyncConnect {...renderProps} />
-      } history={history}>
-        {routes}
-      </Router>
-      {(env === 'development'
-        ? <DevTools />
-        : null)}
-    </div>
+    <Router render={(renderProps) =>
+      <ReduxAsyncConnect {...renderProps} />
+    } history={history}>
+      {routes}
+    </Router>
   </Provider>,
   document.getElementById('root')
 )
