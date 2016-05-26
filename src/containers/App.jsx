@@ -12,27 +12,26 @@ import {
   Header
 } from '../components'
 
-class App extends Component {
-  constructor() {
-    super()
-    
-    this.propTypes = {
-      children: PropTypes.node.isRequired
-    }
-  }
-  
-  render() {
-    return (
-      <div className="myApp">
-        <Helmet 
-          title="Nomkhonwaan"
-          titleTemplate="%s &middot; Trust me I'm Petdo" />
-        <Header />
-        {children}
-        <Footer />
-      </div>
-    )
-  }
+/**
+ * App component  
+ * 
+ * @param children  Object  React component
+ */
+function App({ children }) {
+  return (
+    <div className="myApp">
+      <Helmet 
+        title="Nomkhonwaan"
+        titleTemplate="%s &middot; Trust me I'm Petdo" />
+      <Header />
+      {children}
+      <Footer />
+    </div>
+  )
+}
+
+App.propTypes = {
+  children: PropTypes.node.isRequired
 }
 
 export default App

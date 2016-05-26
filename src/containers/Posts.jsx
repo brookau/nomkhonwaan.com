@@ -12,27 +12,21 @@ import Helmet from 'react-helmet'
 
 /**
  * Posts component
- *
- * @param year  String  Publish year
- * @param month String  Publish month
- * @param date  String  Publish date
+ * 
+ * @param year  String  Published year
+ * @param month String  Published month 
+ * @param date  String  Published date
  */
-class Posts extends Component {
-  constructor({ year, month, date}) {
-    super()
-    
-    this.propTypes = {
-      year: PropTypes.string,
-      month: PropTypes.string,
-      date: PropTypes.string
-    }
-  }
-  
-  render() {
-    return (
-      <div></div>
-    )
-  }
+function Posts({ year, month, date }) {
+  return (
+    <div></div>
+  )
+}
+
+Posts.propTypes = {
+  year: PropTypes.string,
+  month: PropTypes.string,
+  date: PropTypes.string
 }
 
 export default connect((state, ownProps) => ({
