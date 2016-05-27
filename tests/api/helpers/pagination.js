@@ -26,6 +26,14 @@ describe('api/helpers/pagination.js', () => {
     expect(previous).to.be.undefined
   })
   
+  it('should return only self and previous links', () => {
+    const { self, next, previous } = pagination(3, 1, 3, '/api/v1/posts?page[number]=1&page[size]=5')
+    
+    expect(self).to.match(/(?=.*page\[number\]\=3)(?=.*page\[size\]\=5).*$/)
+    expect(next).to.be.undefined
+    expect(previous).to.match(/(?=.*page\[number\]\=2)(?=.*page\[size\]\=5).*$/)
+  })
+  
   it('should return self, next and previous links', () => {
     const { self, next, previous } = pagination(2, 5, 20, '/api/v1/posts?page[number]=2')
     
