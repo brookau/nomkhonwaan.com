@@ -10,14 +10,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 
-/**
- * Posts component
- * 
- * @param year  String  Published year
- * @param month String  Published month 
- * @param date  String  Published date
- */
-function Posts({ year, month, date }) {
+const Posts = ({ year, month, date }) => {
   return (
     <div></div>
   )

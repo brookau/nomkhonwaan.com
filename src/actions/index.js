@@ -15,12 +15,10 @@ export const POST = {
 }
 
 /**
- * Handle on click nav menu button
- * 
- * @param isExpanded  Boolean Nav menu status, default is false
+ * @param   isExpanded  Boolean
  * @returns Object
  */
-export function onClickMenuButton(isExpanded) {
+export const onClickMenuButton = (isExpanded) => {
   return {
     type: NAV.ON_CLICK_MENU_BUTTON,
     isExpanded: ! isExpanded

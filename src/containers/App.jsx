@@ -7,17 +7,9 @@
 
 import React, { PropTypes, Component } from 'react'
 import Helmet from 'react-helmet'
-import {
-  Footer,
-  Header
-} from '../components'
+import { Footer, Header } from '../components'
 
-/**
- * App component  
- * 
- * @param children  Object  React component
- */
-function App({ children }) {
+const App = ({ children }) => {
   return (
     <div className="myApp">
       <Helmet 

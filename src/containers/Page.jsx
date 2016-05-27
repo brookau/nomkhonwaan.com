@@ -7,8 +7,10 @@
 
 import React, { PropTypes } from 'react'
 
-export default function Page() {
+const Page = () => {
   return (
     <div></div>
   )
 }
+
+export default Page

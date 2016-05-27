@@ -16,10 +16,8 @@ Tag.propTypes = {
   slug: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  slug: ownProps.params.slug
-})
-
 export default connect(
-  mapStateToProps
+  (state, ownProps) => ({
+    slug: ownProps.params.slug
+  })
 )(Tag)

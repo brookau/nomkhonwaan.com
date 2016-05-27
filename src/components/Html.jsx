@@ -9,7 +9,7 @@ import React, { PropTypes } from 'react'
 import { renderToString } from 'react-dom/server'
 import Helmet from 'react-helmet'
 
-export default function Html({ assets, components, initialState }) {
+const Html = ({ assets, components, initialState }) => {
   const head = Helmet.rewind()
   const content = components 
     ? renderToString(components)
@@ -70,3 +70,5 @@ Html.propTypes = {
   components: PropTypes.node,
   initialState: PropTypes.object
 }
+
+export default Html

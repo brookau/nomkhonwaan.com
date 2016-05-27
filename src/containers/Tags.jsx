@@ -8,8 +8,10 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 
-export default function Tags() {
+const Tags = () => {
   return (
     <div></div>
   )
 }
+
+export default Tags

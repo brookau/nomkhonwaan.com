@@ -8,7 +8,7 @@
 import React from 'react'
 import { Author, Nav } from './'
 
-export default function Header() {
+const Header = () => {
   return (
     <header className="layout-header">
       <Nav />
@@ -16,3 +16,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header
