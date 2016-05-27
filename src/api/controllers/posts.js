@@ -55,6 +55,7 @@
 import _ from 'lodash'
 import Q from 'q'
 import { Post } from '../models'
+import { pagination } from '../helpers'
 
 export const publicFields = [
   'title',
@@ -66,8 +67,6 @@ export const publicFields = [
 ]
 
 /**
- * Format post object
- * 
  * @param _id         String  Post ID
  * @param title       String  Post title 
  * @param slug        String  Post slug, **uniqued**
@@ -110,10 +109,6 @@ function format({ _id, title, slug, publishedAt, html, tags, users }) {
 }
 
 /**
- * Count all posts
- * 
- * To counting the post items with conditions that provided and return as a Promise function
- * 
  * @param conds Object  Conditions for selection
  * @returns Integer
  */
@@ -133,44 +128,12 @@ function count(conds) {
 }
 
 /**
- * Pagination
- * 
- * To generate the page URL automatically by detect from current page, total items 
- * and an items per page, so you can specific the base URL if you want
- * 
- * @param page          Integer Current page number
- * @param itemsPerPage  Integer An items per one page 
- * @param totalItems    Integer Total items 
- * @param baseURL       string  Base URL when generate pagination URL
- * @returns Object
- */
-function pagination(page, itemsPerPage, totalItems, baseURL = '/') {
-  const links = {
-    self: `${baseURL}?page[number]=${page}&page[size]=${itemsPerPage}`
-  }
-  
-  if (totalItems > itemsPerPage) {
-    if (page > 1) {
-      links.previous = `${baseURL}?page[number]=${page - 1}&page[size]=${itemsPerPage}`
-    }
-    
-    if (page < Math.ceil(totalItems / itemsPerPage)) {
-      links.next = `${baseURL}?page[number]=${page + 1}&page[size]=${itemsPerPage}`
-    }
-  }
-  
-  return links
-}
-
-/**
  * [GET] /api/posts
- * 
- * Get list of post, default return 5 latest published posts.
  * 
  * @param page.size   Integer  Item per page
  * @param page.number Integer  Current page number
  */
-export function getPosts(req, res, next) {
+export const getPosts = (req, res, next) => { 
   try {
     // Pagination
     let page = req.query.page || {}
@@ -222,7 +185,7 @@ export function getPosts(req, res, next) {
             page.number, 
             page.size, 
             totalItems, 
-            req.fullURL),
+            req.url),
           data: items.reduce((result, item) => {
             result.push(format(item))
             
