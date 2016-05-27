@@ -185,7 +185,7 @@ export const getPosts = (req, res, next) => {
             page.number, 
             page.size, 
             totalItems, 
-            req.url),
+            req.originalUrl),
           data: items.reduce((result, item) => {
             result.push(format(item))
             
