@@ -31,7 +31,7 @@ import reducers from './reducers'
 import routes from './routes'
 import { Html } from './components'
 
-import { url, logger, mongodb, session } from './helpers'
+import { url, logger, mongodb, session } from './config'
 
 import apiRoutes from './api'
 

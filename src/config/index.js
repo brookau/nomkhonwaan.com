@@ -1,5 +1,5 @@
-// helpers/index.js
-// ----------------
+// config/index.js
+// ---------------
 //
 // @author  Natcha Luang - Aroonchai <me@nomkhonwaan.com>
 // @created May 25, 2016
