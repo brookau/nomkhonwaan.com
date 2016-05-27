@@ -26,6 +26,16 @@ export default (page, itemsPerPage, totalItems, url = '/') => {
     urlObj.query['page[size]'] = itemsPerPage  
   }
   
+  links.self = decodeURI(
+    format(Object.assign(urlObj, {
+      search: null,
+      query: {
+        ...urlObj.query,
+        ['page[number]']: page
+      }
+    }))
+  )
+  
   if (totalItems > itemsPerPage) {
     if (page > 1) {
       links.previous = decodeURI(
@@ -52,7 +62,5 @@ export default (page, itemsPerPage, totalItems, url = '/') => {
     }
   }
   
-  return Object.assign(links, {
-    self: format(url)
-  })
+  return links
 }
