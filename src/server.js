@@ -49,22 +49,19 @@ export default (app) => {
     level: 9
   }))
 
-  // Secure Express website with Helmet
+  // Secure Express application with Helmet
   app.use(helmet())
   
-  // Setup session 
+  // Setup Redis session
   app.use(session())
   
-  // SetupMongoDB connection
+  // Setup MongoDB connection
   app.use(mongodb())
   
-  // Setup URL
-  app.use(url())
-
-  // Using Logger for logging!
+  // Logger, log all requests, error state
   app.use(logger())
 
-  // Setup API routes prefix
+  // Register API routes
   app.use(`/api/v1`, apiRoutes)
   
   // Setup JSON response format

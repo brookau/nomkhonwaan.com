@@ -8,6 +8,5 @@
 import logger from './logger'
 import mongodb from './mongodb'
 import session from './session'
-import url from './url'
 
-export { logger, mongodb, session, url }
+export { logger, mongodb, session }
